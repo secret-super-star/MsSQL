@@ -1,0 +1,28 @@
+/* .panel-header-lg{
+    padding-top: 20px !important;
+}
+
+.chart_desc{
+    padding-left: 25px;
+    color: white;
+    font-weight: bold;
+} */
+
+.dataTables_wrapper .row{
+    width: 100%;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover{
+    background: #f96332 !important;
+    border-color: #f96332 !important;
+}
+
+.paginate_button.active{
+    background: #f96332 !important;
+    border-color: #f96332 !important;
+
+}
+
+.paginate_button a{
+    color: black !important;
+}
