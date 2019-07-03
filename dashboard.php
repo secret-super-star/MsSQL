@@ -159,7 +159,7 @@ if(!isset($_SESSION['username'])){
             </div>
         </div>
         <div class="row table_row">
-        <div class="col-md-12">
+          <div class="col-md-12">
             <div class="card">
               <div class="card-header">
                 <h4 class="card-title">Bets History</h4>
@@ -209,8 +209,71 @@ if(!isset($_SESSION['username'])){
             </div>
           </div>
         </div>
-      </div>
 
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h5 class="title">Today Resume</h5>
+              </div>
+              <div class="card-body">
+                <form>
+                  <div class="row">
+                    <div class="col-md-6 pr-1">
+                      <div class="form-group">
+                        <label>Bets Done</label>
+                        <input type="text" class="form-control" placeholder="" value="">
+                      </div>
+                    </div>
+
+                    <div class="col-md-6 pr-1">
+                      <div class="form-group">
+                        <label>Unsettled</label>
+                        <input type="text" class="form-control" placeholder="" value="">
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="row">
+                    <div class="col-md-6 pr-1">
+                      <div class="form-group">
+                        <label>Settled</label>
+                        <input type="text" class="form-control" placeholder="" value="">
+                      </div>
+                    </div>
+
+                    <div class="col-md-6 pr-1">
+                      <div class="form-group">
+                        <label>In Stake</label>
+                        <input type="text" class="form-control" placeholder="" value="">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6 pr-1">
+                      <div class="form-group">
+                        <label>Profit</label>
+                        <input type="text" class="form-control" placeholder="" value="">
+                      </div>
+                    </div>
+
+                    <div class="col-md-6 pr-1">
+                      <div class="form-group">
+                        <label>ROI</label>
+                        <input type="text" class="form-control" placeholder="" value="">
+                      </div>
+                    </div>
+                  </div>
+
+                </form>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
 
       <footer class="footer">
         <div class="container-fluid">
