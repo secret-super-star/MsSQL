@@ -158,57 +158,7 @@ if(!isset($_SESSION['username'])){
                 </div>
             </div>
         </div>
-        <div class="row table_row">
-          <div class="col-md-12">
-            <div class="card">
-              <div class="card-header">
-                <h4 class="card-title">Bets History</h4>
-                <button class="btn btn-primary btn-sm filter_button" data-value='month'>Last 30 days</button>
-                <button class="btn btn-default btn-sm filter_button" data-value='week'>Last 7 days</button>
-                <button class="btn btn-default btn-sm filter_button" data-value='time'>Last 24 hours</button>
-              </div>
-              <div class="card-body">
-                <div class="">
-                  <table class="status_table"style="width:100%" >
-                    <thead class="">
-                      <th>
-                        Date
-                      </th>
-                      <th>
-                        Event
-                      </th>
-                      <th>
-                        Stake
-                      </th>
-                      <th style='width: 50px !important;'>
-                        Evaluation
-                      </th>
-                      <th style='width: 40px !important;'>
-                        Odd
-                      </th>
-                      <th >
-                        Market
-                      </th>
-                      <!-- <th >
-                        Result
-                      </th> -->
-                      <th style='width: 40px !important;'>
-                        Profit
-                      </th>
-                    </thead>
-                    <tbody id='status_table'>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-              <div class="card-footer ">
-                <div class="stats">
-                  <i class="now-ui-icons loader_refresh spin"></i> Updated <span class='table_update'>1</span> minutes ago
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+
 
         <div class="row">
           <div class="col-md-12">
@@ -272,6 +222,59 @@ if(!isset($_SESSION['username'])){
           </div>
 
         </div>
+        
+        <div class="row table_row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">Bets History</h4>
+                <button class="btn btn-primary btn-sm filter_button" data-value='month'>Last 30 days</button>
+                <button class="btn btn-default btn-sm filter_button" data-value='week'>Last 7 days</button>
+                <button class="btn btn-default btn-sm filter_button" data-value='time'>Last 24 hours</button>
+              </div>
+              <div class="card-body">
+                <div class="">
+                  <table class="status_table"style="width:100%" >
+                    <thead class="">
+                      <th>
+                        Date
+                      </th>
+                      <th>
+                        Event
+                      </th>
+                      <th>
+                        Stake
+                      </th>
+                      <th style='width: 50px !important;'>
+                        Evaluation
+                      </th>
+                      <th style='width: 40px !important;'>
+                        Odd
+                      </th>
+                      <th >
+                        Market
+                      </th>
+                      <!-- <th >
+                        Result
+                      </th> -->
+                      <th style='width: 40px !important;'>
+                        Profit
+                      </th>
+                    </thead>
+                    <tbody id='status_table'>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="card-footer ">
+                <div class="stats">
+                  <i class="now-ui-icons loader_refresh spin"></i> Updated <span class='table_update'>1</span> minutes ago
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
 
       <footer class="footer">

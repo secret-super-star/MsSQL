@@ -1,13 +1,14 @@
+<!DOCTYPE html>
 <?php
-  include('config.php');
+include('config.php');
 
-  if(isset($_SESSION['username'])){
-      header("location:dashboard.php");
-  }
-
+$refferal_user = "";
+if(isset($_GET['ref'])){
+	$refferal_user = $_GET['ref'];
+}
 ?>
 
-<!DOCTYPE html>
+
 
 <html lang="en">
 <head>
@@ -33,32 +34,43 @@
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100">
-				<form class="login100-form validate-form" action="check.php" method="post">
+				<form class="login100-form validate-form register_form" action="register_user.php" method="post">
 					<span class="login100-form-title p-b-26">
-						Welcome
+						Register
 					</span>
-					<span class="login100-form-title p-b-48">
-						<i class="zmdi zmdi-font"></i>
-					</span>
-					<span style="color:red;font-size:0.9rem;"><?php if(isset($_SESSION['nameerror'])){ echo $_SESSION['nameerror'];$_SESSION['nameerror'] = "";} ?></span>
+
 					<div class="wrap-input100 validate-input" data-validate = "Valid email is: a@b.c">
-						<input class="input100" type="text" name="username">
+						<input class="input100" type="text" name="username" autocomplete="off" required>
 						<span class="focus-input100" data-placeholder=""></span>
 					</div>
-					<span style="color:red;font-size:0.9rem;"><?php if(isset($_SESSION['pwderror'])){ echo $_SESSION['pwderror'];$_SESSION['pwderror'] = "";} ?></span>
+
+					<span style="color:red;font-size:0.9rem;">Password not match</span>
 					<div class="wrap-input100 validate-input" data-validate="Enter password">
 						<span class="btn-show-pass">
 							<i class="zmdi zmdi-eye"></i>
 						</span>
-						<input class="input100" type="password" name="password">
+						<input class="input100" type="password" name="password"  autocomplete="off">
+						<span class="focus-input100" data-placeholder=""></span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate="Enter password">
+						<span class="btn-show-pass">
+							<i class="zmdi zmdi-eye"></i>
+						</span>
+						<input class="input100" type="password" name="confirm_password"  autocomplete="off">
+						<span class="focus-input100" data-placeholder=""></span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate="Enter password">
+						<input class="input100" type="text" name="refferal" readonly  autocomplete="off" value="<?php echo $refferal_user; ?>">
 						<span class="focus-input100" data-placeholder=""></span>
 					</div>
 
 					<div class="container-login100-form-btn">
 						<div class="wrap-login100-form-btn">
 							<div class="login100-form-bgbtn"></div>
-							<button class="login100-form-btn">
-								Login
+							<button type="submit" class="login100-form-btn">
+								Register
 							</button>
 						</div>
 					</div>
