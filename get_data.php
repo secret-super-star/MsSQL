@@ -25,7 +25,7 @@ foreach($result_year as $result){
     } else {
         $return['year'][] = 0;
     }
-    
+
 }
 
 $result_mon = array();
@@ -56,7 +56,7 @@ foreach($result_mon as $result){
     } else {
         $return['month']['data'][] = 0;
     }
-    
+
 }
 
 
@@ -80,7 +80,7 @@ for($j=0;$j<7;$j++){
 }
 
 for($j=0;$j<7;$j++){
-    
+
     $result_week[$today]['val'] =0;
     $result_week[$today]['count'] =0;
     $return['week']['label'][]=$week_array1[$j];
@@ -104,7 +104,7 @@ foreach($result_week as $result){
     } else {
         $return['week']['data'][] = 0;
     }
-    
+
 }
 
 $result_time = array();
@@ -120,7 +120,7 @@ for($i=0;$i<24;$i++){
 $tsql = "select * from AccountsBalance where TimeStamp >= DATEADD(hh, -24, GETDATE()) and ClientUsername = '".$user_name."' and ClientUsername = '".$user_name."' order by TimeStamp ASC";
 $stmt3 = sqlsrv_query( $conn, $tsql);
 while($obj = sqlsrv_fetch_array($stmt3, SQLSRV_FETCH_ASSOC)){
-    
+
     $timestamp = strtotime($obj['TimeStamp']);
     $php_date = getdate($timestamp);
     $result_time[$php_date['hours']]['val'] += (float)$obj['Balance'];
@@ -133,16 +133,46 @@ foreach($result_time as $result){
     } else {
         $return['time']['data'][] = 0;
     }
-    
+
 }
 
+$tsql = "select count(*) as count from BetsDone where FORMAT(TimeStamp,'yyyy-MM-dd') = FORMAT( GETDATE( ) ,'yyyy' ) and ClientUsername = '".$user_name."'";
+$stmt4 = sqlsrv_query( $conn, $tsql);
+while($obj = sqlsrv_fetch_array($stmt4, SQLSRV_FETCH_ASSOC)){
+    $return['resume']['betcount'] = $obj['count'];
+}
 
+$tsql = "select count(*) as count from BetsDone where FORMAT(TimeStamp,'yyyy-MM-dd') = FORMAT( GETDATE( ) ,'yyyy' ) and ClientUsername = '".$user_name."' and OutCome ='unsettled'";
+$stmt4 = sqlsrv_query( $conn, $tsql);
+while($obj = sqlsrv_fetch_array($stmt4, SQLSRV_FETCH_ASSOC)){
+    $return['resume']['Unsettled'] = $obj['count'];
+}
+
+$tsql = "select count(*) as count from BetsDone where FORMAT(TimeStamp,'yyyy-MM-dd') = FORMAT( GETDATE( ) ,'yyyy' ) and ClientUsername = '".$user_name."' and OutCome ='settled'";
+$stmt4 = sqlsrv_query( $conn, $tsql);
+while($obj = sqlsrv_fetch_array($stmt4, SQLSRV_FETCH_ASSOC)){
+    $return['resume']['settled'] = $obj['count'];
+}
+
+$tsql = "select sum(Stake) as Stake from BetsDone where FORMAT(TimeStamp,'yyyy-MM-dd') = FORMAT( GETDATE( ) ,'yyyy' ) and ClientUsername = '".$user_name."'";
+$stmt4 = sqlsrv_query( $conn, $tsql);
+while($obj = sqlsrv_fetch_array($stmt4, SQLSRV_FETCH_ASSOC)){
+    $return['resume']['Stake'] = $obj['Stake'];
+}
+
+$tsql = "select sum(Profit) as Profit from BetsDone where FORMAT(TimeStamp,'yyyy-MM-dd') = FORMAT( GETDATE( ) ,'yyyy' ) and ClientUsername = '".$user_name."'";
+$stmt4 = sqlsrv_query( $conn, $tsql);
+while($obj = sqlsrv_fetch_array($stmt4, SQLSRV_FETCH_ASSOC)){
+    $return['resume']['Profit'] = $obj['Profit'];
+}
+
+$return['resume']['ROI'] = $obj['ROI'];
 
 echo json_encode($return);
 die();
 
 
-echo "<pre>";
-print_r($result_time);
-echo "</pre>";
-die();
+// echo "<pre>";
+// print_r($result_time);
+// echo "</pre>";
+// die();

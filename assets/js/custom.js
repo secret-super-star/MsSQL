@@ -496,11 +496,17 @@ function load_data() {
             });
             myChart3.update();
 
+            $('.bets_done').val(data['resume']['betcount']);
+            $('.unsettled').val(data['resume']['Unsettled']);
+            $('.settled').val(data['resume']['settled']);
+            $('.instake').val(parseFloat(data['resume']['Stake']));
+            $('.profit').val(parseFloat(data['resume']['Profit']) - parseFloat(data['resume']['Stake']));
+            $('.roi').val((parseFloat(data['resume']['Stake']) / parseFloat(data['resume']['Profit']) * 100).toFixed(2));
+
             clearInterval(auto_load2);
             card_update_time = 0;
             auto_load2 = setInterval(update_card_time, 60000);
 
-            console.log(data)
         },
         error: function (jqXhr, textStatus, errorThrown) {
             console.log(errorThrown);
@@ -524,7 +530,6 @@ function load_table() {
             if(data['table']){
                 draw_table(data['table']);
             }
-            console.log(data)
 
             clearInterval(auto_load3);
             table_update_time = 0;
@@ -538,7 +543,6 @@ function load_table() {
 
 
 function draw_table(data) {
-    console.log(data);
     datatable.destroy();
     $("#status_table").html('');
     var txt = '';
@@ -578,12 +582,7 @@ function draw_table(data) {
 }
 
 function show_userlist(data) {
-    // var txt = '';
-    // for (let i = 0; i < data.length; i++) {
-    //     txt += '<option value="' + data[i] + '">' + data[i] + "</option>";
-    // }
-    // console.log(txt);
-    // $("#user_select").append(txt);
+
 
     var txt = '';
     for (let i = 0; i < data.length; i++) {

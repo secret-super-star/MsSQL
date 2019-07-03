@@ -1,13 +1,16 @@
-<!DOCTYPE html>
-<?php 
-  include('config.php') 
+<?php
+  include('config.php')
+
 ?>
+
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
 	<title>Login</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-<!--===============================================================================================-->	
+<!--===============================================================================================-->
 	<link rel="icon" type="image/png" href="./assets/login/images/icons/favicon.ico"/>
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="./assets/css/bootstrap.min.css">
@@ -22,7 +25,7 @@
 <!--===============================================================================================-->
 </head>
 <body>
-	
+
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100">
@@ -46,7 +49,7 @@
 						<input class="input100" type="password" name="password">
 						<span class="focus-input100" data-placeholder=""></span>
 					</div>
-					
+
 					<div class="container-login100-form-btn">
 						<div class="wrap-login100-form-btn">
 							<div class="login100-form-bgbtn"></div>
@@ -60,10 +63,10 @@
 			</div>
 		</div>
 	</div>
-	
+
 
 	<div id="dropDownSelect1"></div>
-	
+
 <!--===============================================================================================-->
 	<script src="./assets/login/js/jquery-3.2.1.min.js"></script>
 <!--===============================================================================================-->

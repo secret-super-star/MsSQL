@@ -222,31 +222,30 @@ if(!isset($_SESSION['username'])){
                     <div class="col-md-6 pr-1">
                       <div class="form-group">
                         <label>Bets Done</label>
-                        <input type="text" class="form-control" placeholder="" value="">
+                        <input type="text"  class="form-control bets_done" placeholder="" value="" readonly>
                       </div>
                     </div>
 
                     <div class="col-md-6 pr-1">
                       <div class="form-group">
                         <label>Unsettled</label>
-                        <input type="text" class="form-control" placeholder="" value="">
+                        <input type="text" class="form-control unsettled" placeholder="" value="" readonly>
                       </div>
                     </div>
                   </div>
-
 
                   <div class="row">
                     <div class="col-md-6 pr-1">
                       <div class="form-group">
                         <label>Settled</label>
-                        <input type="text" class="form-control" placeholder="" value="">
+                        <input type="text" class="form-control settled" placeholder="" value="" readonly>
                       </div>
                     </div>
 
                     <div class="col-md-6 pr-1">
                       <div class="form-group">
                         <label>In Stake</label>
-                        <input type="text" class="form-control" placeholder="" value="">
+                        <input type="text" class="form-control instake" placeholder="" value="" readonly>
                       </div>
                     </div>
                   </div>
@@ -255,14 +254,14 @@ if(!isset($_SESSION['username'])){
                     <div class="col-md-6 pr-1">
                       <div class="form-group">
                         <label>Profit</label>
-                        <input type="text" class="form-control" placeholder="" value="">
+                        <input type="text" class="form-control profit" placeholder="" value="" readonly>
                       </div>
                     </div>
 
                     <div class="col-md-6 pr-1">
                       <div class="form-group">
                         <label>ROI</label>
-                        <input type="text" class="form-control" placeholder="" value="">
+                        <input type="text" class="form-control roi" placeholder="" value="" readonly>
                       </div>
                     </div>
                   </div>
@@ -303,16 +302,9 @@ if(!isset($_SESSION['username'])){
   <script src="../assets/js/core/popper.min.js"></script>
   <script src="../assets/js/core/bootstrap.min.js"></script>
   <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
-  <!--  Google Maps Plugin    -->
-  <!-- <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script> -->
-  <!-- Chart JS -->
   <script src="../assets/js/plugins/chartjs.min.js"></script>
-  <!--  Notifications Plugin    -->
   <script src="../assets/js/plugins/bootstrap-notify.js"></script>
-  <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/now-ui-dashboard.min.js?v=1.3.0" type="text/javascript"></script>
-  <!-- Now Ui Dashboard DEMO methods, don't include it in your project! -->
-  <!-- <script src="../assets/demo/demo.js"></script> -->
   <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
   <script src="../assets/js/custom.js"></script>
