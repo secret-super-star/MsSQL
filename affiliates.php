@@ -120,86 +120,56 @@ if(!isset($_SESSION['username'])){
       </nav>
       <!-- End Navbar -->
 
-      <div class="panel-header panel-header-lg" style='height : 400px;'>
-        <canvas id="chart_year"></canvas>
+      <div class="panel-header panel-header-lg" style='height : 100px;'>
+
       </div>
       <div class="content">
         <div class="row card_row">
-            <div class="col-lg-4">
-                <div class="card card-chart">
-                <div class="card-header">
-                    <h5 class="card-category">Last 30 days</h5>
-                </div>
-                <div class="card-body">
-                    <div class="chart-area">
-                    <canvas id="chart_month"></canvas>
-                    </div>
-                </div>
-                <div class="card-footer ">
-                  <div class="stats">
-                    <i class="now-ui-icons loader_refresh spin"></i>  Updated <span class='card_update'>1</span> minutes ago
+          <div class="col-lg-12 col-md-12">
+              <div class="card card-chart">
+              <div class="card-header">
+                  <h5 class="card-category">Last 7 days</h5>
+              </div>
+              <div class="card-body">
+                  <div class="chart-area">
+                  <canvas id="chart_week"></canvas>
                   </div>
-                </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="card card-chart">
-                <div class="card-header">
-                    <h5 class="card-category">Last 7 days</h5>
-                </div>
-                <div class="card-body">
-                    <div class="chart-area">
-                    <canvas id="chart_week"></canvas>
-                    </div>
-                </div>
-                <div class="card-footer ">
-                  <div class="stats">
-                    <i class="now-ui-icons loader_refresh spin"></i> Updated <span class='card_update'>1</span> minutes ago
-                  </div>
-                </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="card card-chart">
-                <div class="card-header">
-                    <h5 class="card-category">Last 24 hours</h5>
+              </div>
+              <div class="card-footer ">
 
-                </div>
-                <div class="card-body">
-                    <div class="chart-area">
-                    <canvas id="chart_time"></canvas>
-                    </div>
-                </div>
-                <div class="card-footer ">
-                  <div class="stats">
-                    <i class="now-ui-icons loader_refresh spin"></i> Updated <span class='card_update'>1</span> minutes ago
-                  </div>
-                </div>
-                </div>
-            </div>
+              </div>
+              </div>
+          </div>
         </div>
-
-
-        <div class="row">
+        <div class="row table_row">
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <h5 class="title">Today Resume</h5>
+                <h4 class="card-title">Affiliates Performance</h4>
+
               </div>
               <div class="card-body">
                 <form>
+
                   <div class="row">
-                    <div class="col-md-6 pr-1">
+                    <div class="col-md-12 pr-1">
                       <div class="form-group">
-                        <label>Bets Done</label>
-                        <input type="text"  class="form-control bets_done" placeholder="" value="" readonly>
+                        <label>Affiliate Link</label>&nbsp;<a href="http://178.238.233.75/register.php?ref=<?php echo $_SESSION['username']; ?>">Go this link</a>
+                        <input type="text"  class="form-control bets_done" placeholder="" value="http://178.238.233.75/register.php?ref=<?php echo $_SESSION['username']; ?>">
                       </div>
                     </div>
 
                     <div class="col-md-6 pr-1">
                       <div class="form-group">
-                        <label>Unsettled</label>
-                        <input type="text" class="form-control unsettled" placeholder="" value="" readonly>
+                        <label>Affiliates</label>
+                        <input type="text"  class="form-control bets_done" placeholder="" value="">
+                      </div>
+                    </div>
+
+                    <div class="col-md-6 pr-1">
+                      <div class="form-group">
+                        <label>Bets</label>
+                        <input type="text" class="form-control unsettled" placeholder="" value="">
                       </div>
                     </div>
                   </div>
@@ -207,15 +177,15 @@ if(!isset($_SESSION['username'])){
                   <div class="row">
                     <div class="col-md-6 pr-1">
                       <div class="form-group">
-                        <label>Settled</label>
-                        <input type="text" class="form-control settled" placeholder="" value="" readonly>
+                        <label>Total Stake</label>
+                        <input type="text" class="form-control settled" placeholder="" value="">
                       </div>
                     </div>
 
                     <div class="col-md-6 pr-1">
                       <div class="form-group">
-                        <label>In Stake</label>
-                        <input type="text" class="form-control instake" placeholder="" value="" readonly>
+                        <label>Total Profit</label>
+                        <input type="text" class="form-control instake" placeholder="" value="">
                       </div>
                     </div>
                   </div>
@@ -223,73 +193,16 @@ if(!isset($_SESSION['username'])){
                   <div class="row">
                     <div class="col-md-6 pr-1">
                       <div class="form-group">
-                        <label>Profit</label>
-                        <input type="text" class="form-control profit" placeholder="" value="" readonly>
-                      </div>
-                    </div>
-
-                    <div class="col-md-6 pr-1">
-                      <div class="form-group">
-                        <label>ROI</label>
-                        <input type="text" class="form-control roi" placeholder="" value="" readonly>
+                        <label>Commission calculated</label>
+                        <input type="text" class="form-control profit" placeholder="" value="">
                       </div>
                     </div>
                   </div>
 
                 </form>
               </div>
-            </div>
-          </div>
-
-        </div>
-
-        <div class="row table_row">
-          <div class="col-md-12">
-            <div class="card">
-              <div class="card-header">
-                <h4 class="card-title">Bets History</h4>
-                <button class="btn btn-primary btn-sm filter_button" data-value='month'>Last 30 days</button>
-                <button class="btn btn-default btn-sm filter_button" data-value='week'>Last 7 days</button>
-                <button class="btn btn-default btn-sm filter_button" data-value='time'>Last 24 hours</button>
-              </div>
-              <div class="card-body">
-                <div class="">
-                  <table class="status_table"style="width:100%" >
-                    <thead class="">
-                      <th>
-                        Date
-                      </th>
-                      <th>
-                        Event
-                      </th>
-                      <th>
-                        Stake
-                      </th>
-                      <th style='width: 50px !important;'>
-                        Evaluation
-                      </th>
-                      <th style='width: 40px !important;'>
-                        Odd
-                      </th>
-                      <th >
-                        Market
-                      </th>
-                      <!-- <th >
-                        Result
-                      </th> -->
-                      <th style='width: 40px !important;'>
-                        Profit
-                      </th>
-                    </thead>
-                    <tbody id='status_table'>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
               <div class="card-footer ">
-                <div class="stats">
-                  <i class="now-ui-icons loader_refresh spin"></i> Updated <span class='table_update'>1</span> minutes ago
-                </div>
+
               </div>
             </div>
           </div>
@@ -330,7 +243,7 @@ if(!isset($_SESSION['username'])){
   <script src="../assets/js/now-ui-dashboard.min.js?v=1.3.0" type="text/javascript"></script>
   <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
-  <script src="../assets/js/custom.js"></script>
+  <script src="../assets/js/affiliate.js" type="text/javascript"></script>
 </body>
 
 </html>

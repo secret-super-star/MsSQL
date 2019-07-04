@@ -499,9 +499,9 @@ function load_data() {
             $('.bets_done').val(data['resume']['betcount']);
             $('.unsettled').val(data['resume']['Unsettled']);
             $('.settled').val(data['resume']['settled']);
-            $('.instake').val(parseFloat(data['resume']['Stake']));
-            $('.profit').val(parseFloat(data['resume']['Profit']) - parseFloat(data['resume']['Stake']));
-            $('.roi').val((parseFloat(data['resume']['Stake']) / parseFloat(data['resume']['Profit']) * 100).toFixed(2));
+            $('.instake').val(parseFloat(data['resume']['Stake']).toFixed(2));
+            $('.profit').val((parseFloat(data['resume']['Profit']) - parseFloat(data['resume']['Stake'])).toFixed(2));
+            $('.roi').val((parseFloat(data['resume']['Profit']) / parseFloat(data['resume']['Stake']) * 100).toFixed(2)+"%");
 
             clearInterval(auto_load2);
             card_update_time = 0;

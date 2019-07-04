@@ -136,31 +136,31 @@ foreach($result_time as $result){
 
 }
 
-$tsql = "select count(*) as count from BetsDone where FORMAT(TimeStamp,'yyyy-MM-dd') = FORMAT( GETDATE( ) ,'yyyy' ) and ClientUsername = '".$user_name."'";
+$tsql = "select count(*) as count from BetsDone where FORMAT(TimeStamp,'yyyy-MM-dd') = FORMAT( GETDATE( ) ,'yyyy-MM-dd' ) and ClientUsername = '".$user_name."'";
 $stmt4 = sqlsrv_query( $conn, $tsql);
 while($obj = sqlsrv_fetch_array($stmt4, SQLSRV_FETCH_ASSOC)){
     $return['resume']['betcount'] = $obj['count'];
 }
 
-$tsql = "select count(*) as count from BetsDone where FORMAT(TimeStamp,'yyyy-MM-dd') = FORMAT( GETDATE( ) ,'yyyy' ) and ClientUsername = '".$user_name."' and OutCome ='unsettled'";
+$tsql = "select count(*) as count from BetsDone where FORMAT(TimeStamp,'yyyy-MM-dd') = FORMAT( GETDATE( ) ,'yyyy-MM-dd' ) and ClientUsername = '".$user_name."' and OutCome ='unsettled'";
 $stmt4 = sqlsrv_query( $conn, $tsql);
 while($obj = sqlsrv_fetch_array($stmt4, SQLSRV_FETCH_ASSOC)){
     $return['resume']['Unsettled'] = $obj['count'];
 }
 
-$tsql = "select count(*) as count from BetsDone where FORMAT(TimeStamp,'yyyy-MM-dd') = FORMAT( GETDATE( ) ,'yyyy' ) and ClientUsername = '".$user_name."' and OutCome ='settled'";
+$tsql = "select count(*) as count from BetsDone where FORMAT(TimeStamp,'yyyy-MM-dd') = FORMAT( GETDATE( ) ,'yyyy-MM-dd' ) and ClientUsername = '".$user_name."' and OutCome ='settled'";
 $stmt4 = sqlsrv_query( $conn, $tsql);
 while($obj = sqlsrv_fetch_array($stmt4, SQLSRV_FETCH_ASSOC)){
     $return['resume']['settled'] = $obj['count'];
 }
 
-$tsql = "select sum(Stake) as Stake from BetsDone where FORMAT(TimeStamp,'yyyy-MM-dd') = FORMAT( GETDATE( ) ,'yyyy' ) and ClientUsername = '".$user_name."'";
+$tsql = "select sum(Stake) as Stake from BetsDone where FORMAT(TimeStamp,'yyyy-MM-dd') = FORMAT( GETDATE( ) ,'yyyy-MM-dd' ) and ClientUsername = '".$user_name."'";
 $stmt4 = sqlsrv_query( $conn, $tsql);
 while($obj = sqlsrv_fetch_array($stmt4, SQLSRV_FETCH_ASSOC)){
     $return['resume']['Stake'] = $obj['Stake'];
 }
 
-$tsql = "select sum(Profit) as Profit from BetsDone where FORMAT(TimeStamp,'yyyy-MM-dd') = FORMAT( GETDATE( ) ,'yyyy' ) and ClientUsername = '".$user_name."'";
+$tsql = "select sum(Profit) as Profit from BetsDone where FORMAT(TimeStamp,'yyyy-MM-dd') = FORMAT( GETDATE( ) ,'yyyy-MM-dd' ) and ClientUsername = '".$user_name."'";
 $stmt4 = sqlsrv_query( $conn, $tsql);
 while($obj = sqlsrv_fetch_array($stmt4, SQLSRV_FETCH_ASSOC)){
     $return['resume']['Profit'] = $obj['Profit'];

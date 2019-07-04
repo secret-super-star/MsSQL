@@ -18,7 +18,8 @@
 }
 
 .action_bar{
-  text-align: center;
+  text-align: left;
+  padding-left: 25px;
 }
 
 .paginate_button.active{
@@ -29,4 +30,10 @@
 
 .paginate_button a{
     color: black !important;
+}
+
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+    background-color: unset !important;
+    color: #000 !important;
+    cursor: text;
 }
