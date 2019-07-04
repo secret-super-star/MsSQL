@@ -1,6 +1,6 @@
 chartColor = "#FFFFFF";
 var chart_lavel_week = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
-var ctx2 = document.getElementById("chart_week").getContext("2d");
+var ctx = document.getElementById("chart_week").getContext("2d");
 
 gradientFill = ctx2.createLinearGradient(0, 170, 0, 50);
 gradientFill.addColorStop(0, "rgba(128, 182, 244, 0)");
@@ -72,4 +72,25 @@ var a = {
     }
 };
 
-var myChart2 = new Chart(ctx2, a);
+var myChart = new Chart(ctx, a);
+var auto_load ;
+
+function load_data() {
+    $.ajax({
+        url: '/get_data.php',
+        type: 'post',
+        data: post_data,
+        dataType: 'json',
+        cache: false,
+        success: function (data, textStatus, jQxhr) {
+            myChart.data.datasets.forEach((dataset) => {
+                dataset.data = data['year'];
+            });
+            myChart.update();
+
+        },
+        error: function (jqXhr, textStatus, errorThrown) {
+            console.log(errorThrown);
+        }
+    }).done(function () { });
+}

@@ -6,6 +6,40 @@ if(!isset($_SESSION['username'])){
     header("location:index.php");
 }
 
+$user_name = $_SESSION['username'];
+$user_id = $_SESSION['id'];
+
+$tsql = "select count(*) as count from SystemUsers where Referral = '".$user_name."'";
+$stmt = sqlsrv_query( $conn, $tsql);
+while($obj = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)){
+    $Affiliates =  $obj['count'];
+}
+
+$betsdone = 0;
+$total_stake = 0;
+$total_profit = 0;
+$commission = 0;
+
+$tsql = "select Bet365User from clients where SystemUsersID = '".$user_id."'";
+$stmt = sqlsrv_query( $conn, $tsql);
+while($obj = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)){
+    $client_name = $obj['Bet365User'];
+
+    $tsql1 = "select count(*) as count, sum(Stake) as Stake, sum(Profit) as Profit from BetsDone where TimeStamp >= (CURRENT_TIMESTAMP-6) and TimeStamp <= (CURRENT_TIMESTAMP-1) and ClientUsername = '".$client_name."'";
+    $stmt1 = sqlsrv_query( $conn, $tsql1);
+    while($obj1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC)){
+      $betsdone += $obj1['count'];
+      $total_stake += $obj1['Stake'];
+      $total_profit += $obj1['Profit'];
+    }
+}
+
+$tsql = "select commission from SystemUsers where id = '".$user_id."'";
+$stmt = sqlsrv_query( $conn, $tsql);
+while($obj = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)){
+    $commission =  $obj['commission'];
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -162,14 +196,14 @@ if(!isset($_SESSION['username'])){
                     <div class="col-md-6 pr-1">
                       <div class="form-group">
                         <label>Affiliates</label>
-                        <input type="text"  class="form-control bets_done" placeholder="" value="">
+                        <input type="text"  class="form-control bets_done" placeholder="" value="<?php echo $Affiliates ?>">
                       </div>
                     </div>
 
                     <div class="col-md-6 pr-1">
                       <div class="form-group">
                         <label>Bets</label>
-                        <input type="text" class="form-control unsettled" placeholder="" value="">
+                        <input type="text" class="form-control unsettled" placeholder="" value="<?php echo $betsdone; ?>">
                       </div>
                     </div>
                   </div>
@@ -178,14 +212,14 @@ if(!isset($_SESSION['username'])){
                     <div class="col-md-6 pr-1">
                       <div class="form-group">
                         <label>Total Stake</label>
-                        <input type="text" class="form-control settled" placeholder="" value="">
+                        <input type="text" class="form-control settled" placeholder="" value="<?php echo $total_stake; ?>">
                       </div>
                     </div>
 
                     <div class="col-md-6 pr-1">
                       <div class="form-group">
                         <label>Total Profit</label>
-                        <input type="text" class="form-control instake" placeholder="" value="">
+                        <input type="text" class="form-control instake" placeholder="" value="<?php echo $total_profit; ?>">
                       </div>
                     </div>
                   </div>
@@ -194,7 +228,7 @@ if(!isset($_SESSION['username'])){
                     <div class="col-md-6 pr-1">
                       <div class="form-group">
                         <label>Commission calculated</label>
-                        <input type="text" class="form-control profit" placeholder="" value="">
+                        <input type="text" class="form-control profit" placeholder="" value="<?php echo $commission; ?>">
                       </div>
                     </div>
                   </div>
