@@ -12,7 +12,7 @@ if(isset($_GET['ref'])){
 
 <html lang="en">
 <head>
-	<title>Login</title>
+	<title>Register</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->
@@ -44,12 +44,12 @@ if(isset($_GET['ref'])){
 						<span class="focus-input100" data-placeholder=""></span>
 					</div>
 
-					<span style="color:red;font-size:0.9rem;">Password not match</span>
+					<span style="color:red;font-size:0.9rem; display: none" class="password_invalid">Password not match</span>
 					<div class="wrap-input100 validate-input" data-validate="Enter password">
 						<span class="btn-show-pass">
 							<i class="zmdi zmdi-eye"></i>
 						</span>
-						<input class="input100" type="password" name="password"  autocomplete="off">
+						<input class="input100" type="password" name="password" id="password"  autocomplete="off">
 						<span class="focus-input100" data-placeholder=""></span>
 					</div>
 
@@ -57,7 +57,7 @@ if(isset($_GET['ref'])){
 						<span class="btn-show-pass">
 							<i class="zmdi zmdi-eye"></i>
 						</span>
-						<input class="input100" type="password" name="confirm_password"  autocomplete="off">
+						<input class="input100" type="password" name="confirm_password" id="confirm_password" autocomplete="off">
 						<span class="focus-input100" data-placeholder=""></span>
 					</div>
 
