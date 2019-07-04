@@ -17,6 +17,10 @@
     border-color: #f96332 !important;
 }
 
+.action_bar{
+  text-align: center;
+}
+
 .paginate_button.active{
     background: #f96332 !important;
     border-color: #f96332 !important;

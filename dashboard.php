@@ -49,8 +49,14 @@ if(!isset($_SESSION['username'])){
         </a>
       </div>
       <div class="sidebar-wrapper" id="sidebar-wrapper">
-        <ul class="nav user_list">
+        <div class="action_bar mt-4">
+          <a href="./user.html" style="color:white">
+            <i class="now-ui-icons users_single-02"></i> <span>Add Account</span>
+          </a>
+        </div>
 
+        <hr>
+        <ul class="nav user_list">
         </ul>
         <!-- <div class='p-2'>
             <select name="cars" class="custom-select" id='user_select'>
@@ -222,7 +228,7 @@ if(!isset($_SESSION['username'])){
           </div>
 
         </div>
-        
+
         <div class="row table_row">
           <div class="col-md-12">
             <div class="card">
