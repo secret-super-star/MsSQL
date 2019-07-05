@@ -2,7 +2,7 @@ chartColor = "#FFFFFF";
 var chart_lavel_week = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 var ctx = document.getElementById("chart_week").getContext("2d");
 
-gradientFill = ctx2.createLinearGradient(0, 170, 0, 50);
+gradientFill = ctx.createLinearGradient(0, 170, 0, 50);
 gradientFill.addColorStop(0, "rgba(128, 182, 244, 0)");
 gradientFill.addColorStop(1, hexToRGB('#2CA8FF', 0.6));
 
@@ -22,7 +22,7 @@ var a = {
             pointRadius: 4,
             fill: true,
             borderWidth: 1,
-            data: [0, 10, 0, 0, 0, 0, 0]
+            data: [0, 0, 0, 0, 0, 0, 0]
         }]
     },
     options: {
@@ -75,22 +75,19 @@ var a = {
 var myChart = new Chart(ctx, a);
 var auto_load ;
 
-function load_data() {
-    $.ajax({
-        url: '/get_data.php',
-        type: 'post',
-        data: post_data,
-        dataType: 'json',
-        cache: false,
-        success: function (data, textStatus, jQxhr) {
-            myChart.data.datasets.forEach((dataset) => {
-                dataset.data = data['year'];
-            });
-            myChart.update();
-
-        },
-        error: function (jqXhr, textStatus, errorThrown) {
-            console.log(errorThrown);
-        }
-    }).done(function () { });
-}
+$.ajax({
+    url: '/get_affiliates.php',
+    type: 'get',
+    dataType: 'json',
+    cache: false,
+    success: function (data, textStatus, jQxhr) {
+        myChart.data.labels = data['week']['label'];
+        myChart.data.datasets.forEach((dataset) => {
+            dataset.data = data['week']['data'];
+        });
+        myChart.update();
+    },
+    error: function (jqXhr, textStatus, errorThrown) {
+        console.log(errorThrown);
+    }
+}).done(function () { });

@@ -6,40 +6,6 @@ if(!isset($_SESSION['username'])){
     header("location:index.php");
 }
 
-$user_name = $_SESSION['username'];
-$user_id = $_SESSION['id'];
-
-$tsql = "select count(*) as count from SystemUsers where Referral = '".$user_name."'";
-$stmt = sqlsrv_query( $conn, $tsql);
-while($obj = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)){
-    $Affiliates =  $obj['count'];
-}
-
-$betsdone = 0;
-$total_stake = 0;
-$total_profit = 0;
-$commission = 0;
-
-$tsql = "select Bet365User from clients where SystemUsersID = '".$user_id."'";
-$stmt = sqlsrv_query( $conn, $tsql);
-while($obj = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)){
-    $client_name = $obj['Bet365User'];
-
-    $tsql1 = "select count(*) as count, sum(Stake) as Stake, sum(Profit) as Profit from BetsDone where TimeStamp >= (CURRENT_TIMESTAMP-6) and TimeStamp <= (CURRENT_TIMESTAMP-1) and ClientUsername = '".$client_name."'";
-    $stmt1 = sqlsrv_query( $conn, $tsql1);
-    while($obj1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC)){
-      $betsdone += $obj1['count'];
-      $total_stake += $obj1['Stake'];
-      $total_profit += $obj1['Profit'];
-    }
-}
-
-$tsql = "select commission from SystemUsers where id = '".$user_id."'";
-$stmt = sqlsrv_query( $conn, $tsql);
-while($obj = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)){
-    $commission =  $obj['commission'];
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -90,7 +56,6 @@ while($obj = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)){
           <br>
           <br>
 
-          
           <a href="./add_userpage.php" style="color:white">
             <i class="fas fa-user-plus"></i> <span>Add Account</span>
           </a>
@@ -165,80 +130,56 @@ while($obj = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)){
 
       </div>
       <div class="content">
-        <div class="row card_row">
-          <div class="col-lg-12 col-md-12">
-              <div class="card card-chart">
-              <div class="card-header">
-                  <h5 class="card-category">Last 7 days</h5>
-              </div>
-              <div class="card-body">
-                  <div class="chart-area">
-                  <canvas id="chart_week"></canvas>
-                  </div>
-              </div>
-              <div class="card-footer ">
 
-              </div>
-              </div>
-          </div>
-        </div>
         <div class="row table_row">
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <h4 class="card-title">Affiliates Performance</h4>
-
+                <h4 class="card-title">Add account</h4>
               </div>
               <div class="card-body">
-                <form>
+                <form action="add_user.php" class="add_form" method="post">
 
-                  <div class="row">
+                  <div class="row col-md-6">
+
                     <div class="col-md-12 pr-1">
                       <div class="form-group">
-                        <label>Affiliate Link</label>&nbsp;<a href="http://178.238.233.75/register.php?ref=<?php echo $_SESSION['username']; ?>">Go this link</a>
-                        <input type="text"  class="form-control bets_done" placeholder="" value="http://178.238.233.75/register.php?ref=<?php echo $_SESSION['username']; ?>">
+                        <label>Bet365 username</label>
+                        <input type="text" class="form-control" name='username' value="" required>
                       </div>
                     </div>
 
-                    <div class="col-md-6 pr-1">
+                    <div class="col-md-12 pr-1">
                       <div class="form-group">
-                        <label>Affiliates</label>
-                        <input type="text"  class="form-control bets_done" placeholder="" value="<?php echo $Affiliates ?>">
+                        <label>Initial Balance</label>
+                        <input type="number" min='0' class="form-control" name='balance' value="0" required>
                       </div>
                     </div>
 
-                    <div class="col-md-6 pr-1">
+                    <div class="col-md-12 pr-1">
                       <div class="form-group">
-                        <label>Bets</label>
-                        <input type="text" class="form-control unsettled" placeholder="" value="<?php echo $betsdone; ?>">
+                        <label>Bet365 password</label>
+                        <input type="password" class="form-control password" name='password' value="" required>
                       </div>
                     </div>
+
+                    <div class="col-md-12 pr-1">
+                      <div class="form-group">
+                        <label>Confirm password</label>
+                        <input type="password" class="form-control confirm" name='' value="" required>
+                      </div>
+                      <p class="text-danger password_wrong" style="display : none">Password not match..</p>
+                    </div>
+
+                    <div class="col-md-12 pr-1 text-right">
+                      <div class="form-group">
+                        <button type="submit" class="btn btn-primary" name="button">Submit</button>
+                      </div>
+                    </div>
+
                   </div>
 
-                  <div class="row">
-                    <div class="col-md-6 pr-1">
-                      <div class="form-group">
-                        <label>Total Stake</label>
-                        <input type="text" class="form-control settled" placeholder="" value="<?php echo $total_stake; ?>">
-                      </div>
-                    </div>
 
-                    <div class="col-md-6 pr-1">
-                      <div class="form-group">
-                        <label>Total Profit</label>
-                        <input type="text" class="form-control instake" placeholder="" value="<?php echo $total_profit; ?>">
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-md-6 pr-1">
-                      <div class="form-group">
-                        <label>Commission calculated</label>
-                        <input type="text" class="form-control profit" placeholder="" value="<?php echo $commission; ?>">
-                      </div>
-                    </div>
-                  </div>
 
                 </form>
               </div>
@@ -281,10 +222,38 @@ while($obj = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)){
   <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
   <script src="../assets/js/plugins/chartjs.min.js"></script>
   <script src="../assets/js/plugins/bootstrap-notify.js"></script>
-  <script src="../assets/js/now-ui-dashboard.min.js?v=1.3.0" type="text/javascript"></script>
+  <script src="../assets/js/now-ui-dashboard.js?v=1.3.0" type="text/javascript"></script>
   <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
-  <script src="../assets/js/affiliate.js" type="text/javascript"></script>
+
+  <script type="text/javascript">
+    $('.add_form').submit(function (e){
+      e.preventDefault();
+      if($('.password').val() != $('.confirm').val()){
+        $('.password_wrong').css('display','block');
+      } else {
+        $.ajax({
+            url: '/add_user.php',
+            type: 'post',
+            data: $('.add_form').serialize(),
+            dataType: 'json',
+            cache: false,
+            success: function (data, textStatus, jQxhr) {
+              console.log(data['success']);
+              if(data['success'] == false) {
+                nowuiDashboard.showNotification('top','center', 'Cannot create user.', 'danger')
+              } else {
+                nowuiDashboard.showNotification('top','center', 'New user has been created.' , 'primary')
+              }
+
+            },
+            error: function (jqXhr, textStatus, errorThrown) {
+                console.log(errorThrown);
+            }
+        }).done(function () { });
+      }
+    })
+  </script>
 </body>
 
 </html>
