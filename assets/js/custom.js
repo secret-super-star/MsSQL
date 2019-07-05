@@ -451,6 +451,7 @@ var table_update_time = 1;
 var datatable = null;
 datatable = $(".status_table").DataTable({
     // paging: false,
+    stateSave: true,
     searching: false,
     info: false
 });
@@ -574,6 +575,7 @@ function draw_table(data) {
 
     datatable = $(".status_table").DataTable({
         // paging: false,
+        stateSave: true,
         searching: false,
         info: false
     });
@@ -601,6 +603,9 @@ function show_userlist(data) {
 }
 
 $(document).ready(function () {
+
+  var page_count = 0;
+  var page_number = 0;
 
     $('.filter_button').click(function (){
         clearInterval(auto_load1);
@@ -649,5 +654,6 @@ $(document).ready(function () {
         auto_load = setInterval(load_data, 3600000);
         auto_load1 = setInterval(load_table, 60000);
     })
+
 
 })
