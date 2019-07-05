@@ -32,6 +32,7 @@ if(!isset($_SESSION['username'])){
   <link href="../assets/demo/demo.css" rel="stylesheet" />
   <link href="../assets/css/custom.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" href="../assets/css/daterangepicker.min.css"/>
   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css"> -->
   <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css"> -->
 </head>
@@ -251,6 +252,7 @@ if(!isset($_SESSION['username'])){
                 <button class="btn btn-primary btn-sm filter_button" data-value='month'>Last 30 days</button>
                 <button class="btn btn-default btn-sm filter_button" data-value='week'>Last 7 days</button>
                 <button class="btn btn-default btn-sm filter_button" data-value='time'>Last 24 hours</button>
+                <input id="date-range" size="40" value="">
               </div>
               <div class="card-body">
                 <div class="">
@@ -330,7 +332,13 @@ if(!isset($_SESSION['username'])){
   <script src="../assets/js/now-ui-dashboard.min.js?v=1.3.0" type="text/javascript"></script>
   <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
+  <script type="text/javascript" src="../assets/js/moment.min.js"></script>
+  <script type="text/javascript" src="../assets/js/jquery.daterangepicker.min.js"></script>
   <script src="../assets/js/custom.js"></script>
+
+  <script type="text/javascript">
+
+  </script>
 </body>
 
 </html>

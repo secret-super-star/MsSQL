@@ -609,12 +609,24 @@ $(document).ready(function () {
 
     $('.filter_button').click(function (){
         clearInterval(auto_load1);
+        $('#date-range').val("");
         $('.filter_button').removeClass('btn-primary').addClass('btn-default');
         $(this).addClass('btn-primary');
         table_filter = $(this).data('value');
         load_table();
         auto_load1 = setInterval(load_table, 60000);
     })
+
+    $('#date-range').dateRangePicker();
+
+    $('#date-range').on('datepicker-apply', function(ev, picker) {
+      clearInterval(auto_load1);
+      $('.filter_button').removeClass('btn-primary').addClass('btn-default');
+      table_filter = $(this).val();
+      load_table();
+      auto_load1 = setInterval(load_table, 60000);
+
+    });
 
     $.ajax({
         url: '/get_user.php',
