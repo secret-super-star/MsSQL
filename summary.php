@@ -6,12 +6,18 @@ if(!isset($_SESSION['username'])){
     header("location:index.php");
 }
 
-$tsql = "select * from SystemUsers where id = '".$_SESSION['id']."'";
-$stmt = sqlsrv_query( $conn, $tsql);
-while($obj = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)){
-  $advanced = $obj['AdvancedUser'];
-}
+$user_id = $_SESSION["id"];
 
+$tsql = "select * from clients where SystemUsersID = '".$user_id."' and Enabled='true'";
+
+$stmt = sqlsrv_query( $conn, $tsql);
+
+$total_bets = 0;
+$total_Stake = 0;
+$total_Profit = 0;
+$total_settled = 0;
+$total_unsettled = 0;
+$total_roi = 0;
 ?>
 
 <!DOCTYPE html>
@@ -57,6 +63,13 @@ while($obj = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)){
       </div>
       <div class="sidebar-wrapper" id="sidebar-wrapper">
         <div class="action_bar mt-4">
+
+          <a href="./dashboard.php" style="color:white">
+            <i class="fas fa-tachometer-alt"></i> <span>Dashboard</span>
+          </a>
+          <br>
+          <br>
+
           <a href="./add_userpage.php" style="color:white">
             <i class="fas fa-user-plus"></i> <span>Add Account</span>
           </a>
@@ -84,7 +97,7 @@ while($obj = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)){
 
         <hr>
         <ul class="nav user_list">
-          <li data-value="All" class=""><a href="./summary.php"><i class="now-ui-icons design_app"></i><p style='font-size : 14px;'>All Accounts</p></a></li>
+          <li data-value="All" class="active"><a href="./summary.php"><i class="now-ui-icons design_app"></i><p style='font-size : 14px;'>All Accounts</p></a></li>
         </ul>
         <!-- <div class='p-2'>
             <select name="cars" class="custom-select" id='user_select'>
@@ -134,86 +147,128 @@ while($obj = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)){
       </nav>
       <!-- End Navbar -->
 
-      <div class="panel-header panel-header-lg" style='height : 400px;'>
-        <canvas id="chart_year"></canvas>
+      <div class="panel-header panel-header-lg" style='height : 100px;'>
+
       </div>
       <div class="content">
-        <div class="row card_row">
-            <div class="col-lg-4">
-                <div class="card card-chart">
-                <div class="card-header">
-                    <h5 class="card-category">Last 30 days</h5>
-                </div>
-                <div class="card-body">
-                    <div class="chart-area">
-                    <canvas id="chart_month"></canvas>
-                    </div>
-                </div>
-                <div class="card-footer ">
-                  <div class="stats">
-                    <i class="now-ui-icons loader_refresh spin"></i>  Updated <span class='card_update'>1</span> minutes ago
-                  </div>
-                </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="card card-chart">
-                <div class="card-header">
-                    <h5 class="card-category">Last 7 days</h5>
-                </div>
-                <div class="card-body">
-                    <div class="chart-area">
-                    <canvas id="chart_week"></canvas>
-                    </div>
-                </div>
-                <div class="card-footer ">
-                  <div class="stats">
-                    <i class="now-ui-icons loader_refresh spin"></i> Updated <span class='card_update'>1</span> minutes ago
-                  </div>
-                </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="card card-chart">
-                <div class="card-header">
-                    <h5 class="card-category">Last 24 hours</h5>
 
-                </div>
-                <div class="card-body">
-                    <div class="chart-area">
-                    <canvas id="chart_time"></canvas>
-                    </div>
-                </div>
-                <div class="card-footer ">
-                  <div class="stats">
-                    <i class="now-ui-icons loader_refresh spin"></i> Updated <span class='card_update'>1</span> minutes ago
-                  </div>
-                </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="row">
+        <div class="row table_row">
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <h5 class="title">Today Resume</h5>
+                <h4 class="card-title">User lists</h4>
               </div>
               <div class="card-body">
+                <div class="">
+                  <table class="accounts_table"style="width:100%" >
+                    <thead class="">
+                      <th>
+                        Username
+                      </th>
+                      <th>
+                        Bets Done
+                      </th>
+                      <th>
+                        Stake
+                      </th>
+                      <th>
+                        Profit
+                      </th>
+                      <th>
+                        Settled
+                      </th>
+                      <th>
+                        Unsettled
+                      </th>
+                      <th>
+                        ROI
+                      </th>
+                    </thead>
+                    <tbody id='accounts_table'>
+                      <?php
+
+                      while($obj = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)){
+                        $client_name = $obj['Bet365User'];
+                        ?>
+                        <tr>
+                          <td><?php echo $client_name ?></td>
+                          <?php
+                            $return = array();
+                            $tsql1 = "select count(*) as count, sum(Stake) as Stake, sum(Profit) as Profit from BetsDone where ClientUsername = '".$client_name."'";
+                            $stmt1 = sqlsrv_query( $conn, $tsql1);
+                            while($obj1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC)){
+                              $return['count'] += $obj1['count'];
+                              $return['Stake'] += $obj1['Stake'];
+                              $return['Profit'] += $obj1['Profit'];
+                            }
+                            echo "<td>".$return['count']."</td>";
+                            $total_bets += $return['count'];
+                            echo "<td>".$return['Stake']."</td>";
+                            $total_Stake += $return['Stake'];
+                            echo "<td>".round($return['Profit'] - $return['Stake'],2)."</td>";
+                            $total_Profit += round($return['Profit'] - $return['Stake'],2);
+                            //
+                            $tsql1 = "select count(*) as count from BetsDone where ClientUsername = '".$client_name."' and OutCome ='settled'";
+                            $stmt1 = sqlsrv_query( $conn, $tsql1);
+                            while($obj1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC)){
+                              $return['settled'] += $obj1['count'];
+                            }
+                            echo "<td>".$return['settled']."</td>";
+                            $total_settled += $return['settled'];
+                            //
+                            $tsql1 = "select count(*) as count from BetsDone where ClientUsername = '".$client_name."' and OutCome ='unsettled'";
+                            $stmt1 = sqlsrv_query( $conn, $tsql1);
+                            while($obj1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC)){
+                              $return['unsettled'] += $obj1['count'];
+                            }
+                            echo "<td>".$return['unsettled']."</td>";
+
+                            $total_unsettled += $return['unsettled'];
+                            echo "<td>".round((($return['Profit'] - $return['Stake'])/$return['Stake'])*100, 2)."%</td>";
+
+
+
+                          ?>
+
+                        </tr>
+                        <?php
+                      }
+                      $total_roi = round((($total_Profit - $total_Stake)/$total_Stake)*100, 2);
+
+                      ?>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="card-footer ">
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row table_row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">Accounts Summary</h4>
+              </div>
+              <div class="card-body">
+
                 <form>
                   <div class="row">
+
                     <div class="col-md-6 pr-1">
                       <div class="form-group">
                         <label>Bets Done</label>
-                        <input type="text"  class="form-control bets_done" placeholder="" value="" readonly>
+                        <input type="text"  class="form-control bets_done" placeholder="" value="<?php echo $total_bets; ?>" readonly>
                       </div>
                     </div>
 
                     <div class="col-md-6 pr-1">
                       <div class="form-group">
                         <label>Unsettled</label>
-                        <input type="text" class="form-control unsettled" placeholder="" value="" readonly>
+                        <input type="text" class="form-control unsettled" placeholder="" value="<?php echo $total_unsettled; ?>" readonly>
                       </div>
                     </div>
                   </div>
@@ -222,14 +277,14 @@ while($obj = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)){
                     <div class="col-md-6 pr-1">
                       <div class="form-group">
                         <label>Settled</label>
-                        <input type="text" class="form-control settled" placeholder="" value="" readonly>
+                        <input type="text" class="form-control settled" placeholder="" value="<?php echo $total_settled; ?>" readonly>
                       </div>
                     </div>
 
                     <div class="col-md-6 pr-1">
                       <div class="form-group">
                         <label>In Stake</label>
-                        <input type="text" class="form-control instake" placeholder="" value="" readonly>
+                        <input type="text" class="form-control instake" placeholder="" value="<?php echo $total_Stake; ?>" readonly>
                       </div>
                     </div>
                   </div>
@@ -238,94 +293,22 @@ while($obj = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)){
                     <div class="col-md-6 pr-1">
                       <div class="form-group">
                         <label>Profit</label>
-                        <input type="text" class="form-control profit" placeholder="" value="" readonly>
+                        <input type="text" class="form-control profit" placeholder="" value="<?php echo $total_Profit; ?>" readonly>
                       </div>
                     </div>
 
                     <div class="col-md-6 pr-1">
                       <div class="form-group">
                         <label>ROI</label>
-                        <input type="text" class="form-control roi" placeholder="" value="" readonly>
+                        <input type="text" class="form-control roi" placeholder="" value="<?php echo $total_roi; ?>" readonly>
                       </div>
                     </div>
-                    <?php
-                      if($advanced == true){
-                    ?>
-                      <div class="col-md-6 pr-1">
-                        <div class="form-group">
-                          <label>Fixed Return Value</label>
-                          <input type="text" class="form-control frv" placeholder="" value="" readonly>
-                        </div>
-                      </div>
-
-                      <div class="col-md-6 pr-1">
-                        <div class="form-group">
-                          <label>Max per Event</label>
-                          <input type="text" class="form-control mpe" placeholder="" value="" readonly>
-                        </div>
-                      </div>
-                    <?php
-                      }
-
-                    ?>
-
                   </div>
 
                 </form>
               </div>
-            </div>
-          </div>
-
-        </div>
-
-        <div class="row table_row">
-          <div class="col-md-12">
-            <div class="card">
-              <div class="card-header">
-                <h4 class="card-title">Bets History</h4>
-                <button class="btn btn-primary btn-sm filter_button" data-value='month'>Last 30 days</button>
-                <button class="btn btn-default btn-sm filter_button" data-value='week'>Last 7 days</button>
-                <button class="btn btn-default btn-sm filter_button" data-value='time'>Last 24 hours</button>
-                <input id="date-range" size="40" value="">
-              </div>
-              <div class="card-body">
-                <div class="">
-                  <table class="status_table"style="width:100%" >
-                    <thead class="">
-                      <th>
-                        Date
-                      </th>
-                      <th>
-                        Event
-                      </th>
-                      <th>
-                        Stake
-                      </th>
-                      <th style='width: 50px !important;'>
-                        Evaluation
-                      </th>
-                      <th style='width: 40px !important;'>
-                        Odd
-                      </th>
-                      <th >
-                        Market
-                      </th>
-                      <!-- <th >
-                        Result
-                      </th> -->
-                      <th style='width: 40px !important;'>
-                        Profit
-                      </th>
-                    </thead>
-                    <tbody id='status_table'>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
               <div class="card-footer ">
-                <div class="stats">
-                  <i class="now-ui-icons loader_refresh spin"></i> Updated <span class='table_update'>1</span> minutes ago
-                </div>
+
               </div>
             </div>
           </div>
@@ -368,10 +351,14 @@ while($obj = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)){
   <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
   <script type="text/javascript" src="../assets/js/moment.min.js"></script>
   <script type="text/javascript" src="../assets/js/jquery.daterangepicker.min.js"></script>
-  <script src="../assets/js/custom.js"></script>
+  <!-- <script type="text/javascript" src="../assets/js/summary.js"></script> -->
 
   <script type="text/javascript">
-
+    datatable = $(".accounts_table").DataTable({
+        // paging: false,
+        searching: false,
+        info: false
+    });
   </script>
 </body>
 

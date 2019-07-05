@@ -90,7 +90,7 @@ while($obj = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)){
           <br>
           <br>
 
-          
+
           <a href="./add_userpage.php" style="color:white">
             <i class="fas fa-user-plus"></i> <span>Add Account</span>
           </a>
@@ -106,6 +106,12 @@ while($obj = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)){
 
           <a href="./affiliates.php" style="color:white">
             <i class="now-ui-icons files_paper"></i> <span>View Affiliates Performance</span>
+          </a>
+          <br>
+          <br>
+
+          <a href="./summary.php" style="color:white">
+            <i class="now-ui-icons files_paper"></i> <span>Account Summary</span>
           </a>
 
         </div>

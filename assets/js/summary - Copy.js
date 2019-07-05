@@ -448,29 +448,15 @@ var table_filter = 'month';
 var card_update_time = 1;
 var table_update_time = 1;
 
-var datatable = null;
-datatable = $(".status_table").DataTable({
-    // paging: false,
-    stateSave: true,
-    searching: false,
-    info: false
-});
-
 function update_card_time(){
     card_update_time ++;
     $('.card_update').text(card_update_time);
 }
 
-function update_table_time(){
-    table_update_time ++;
-    $('.table_update').text(table_update_time);
-}
-
 function load_data() {
     $.ajax({
-        url: '/get_data.php',
-        type: 'post',
-        data: post_data,
+        url: '/get_summary.php',
+        type: 'get',
         dataType: 'json',
         cache: false,
         success: function (data, textStatus, jQxhr) {
@@ -496,15 +482,13 @@ function load_data() {
                 dataset.data = data['time']['data'];
             });
             myChart3.update();
-
-            $('.bets_done').val(data['resume']['betcount']);
-            $('.unsettled').val(data['resume']['Unsettled']);
-            $('.settled').val(data['resume']['settled']);
-            $('.instake').val(parseFloat(data['resume']['Stake']).toFixed(2));
-            $('.profit').val((parseFloat(data['resume']['Profit']) - parseFloat(data['resume']['Stake'])).toFixed(2));
-            $('.roi').val(((parseFloat(data['resume']['Profit'])- parseFloat(data['resume']['Stake'])) / parseFloat(data['resume']['Stake']) * 100).toFixed(2)+"%");
-            $('.frv').val(data['resume']['decimal']);
-            $('.mpe').val(data['resume']['event']);
+            //
+            // $('.bets_done').val(data['resume']['betcount']);
+            // $('.unsettled').val(data['resume']['Unsettled']);
+            // $('.settled').val(data['resume']['settled']);
+            // $('.instake').val(parseFloat(data['resume']['Stake']).toFixed(2));
+            // $('.profit').val((parseFloat(data['resume']['Profit']) - parseFloat(data['resume']['Stake'])).toFixed(2));
+            // $('.roi').val((parseFloat(data['resume']['Profit']) / parseFloat(data['resume']['Stake']) * 100).toFixed(2)+"%");
 
             clearInterval(auto_load2);
             card_update_time = 0;
@@ -517,160 +501,5 @@ function load_data() {
     }).done(function () { });
 }
 
-function load_table() {
-    var table_get_data = {
-        'user_name': selected_user,
-        'table_filter' : table_filter
-    }
-    $.ajax({
-        url: '/get_table.php',
-        type: 'post',
-        data: table_get_data,
-        dataType: 'json',
-        cache: false,
-        success: function (data, textStatus, jQxhr) {
 
-            if(data['table']){
-                draw_table(data['table']);
-            }
-
-            clearInterval(auto_load3);
-            table_update_time = 0;
-            auto_load3 = setInterval(update_table_time, 60000);
-        },
-        error: function (jqXhr, textStatus, errorThrown) {
-            console.log(errorThrown);
-        }
-    }).done(function () { });
-}
-
-
-function draw_table(data) {
-    datatable.destroy();
-    $("#status_table").html('');
-    var txt = '';
-    for (let i = 0; i < data.length; i++) {
-        txt += '<tr>';
-        var time = data[i]['TimeStamp'].split('.')[0];
-        txt += '<td>'+time+"</td>";
-
-        txt += '<td>'+data[i]['Teams']+"</td>";
-        txt += '<td>'+data[i]['Stake']+"</td>";
-        txt += '<td>'+data[i]['Evaluation']+"</td>";
-        var temp = (""+data[i]['OddDecimal']).split('.').length;
-        if(temp > 1) txt += '<td>'+data[i]['OddDecimal']+"</td>";
-        else txt += '<td>'+data[i]['OddDecimal']+".00</td>";
-        // txt += '<td>'+data[i]['OddDecimal']+"</td>";
-        txt += '<td>'+data[i]['MarketInfo']+"</td>";
-        // txt += '<td>'+data[i]['OutCome']+"</td>";
-        if(data[i]['OutCome'] == 'unsettled') {
-            txt += '<td style="color: blue">?</td>';
-        } else if(data[i]['Profit'] == '.00'){
-            txt += '<td style="color: red">0.00</td>';
-        } else {
-            txt += '<td style="color: green">'+data[i]['Profit']+'</td>';
-        }
-
-        txt += '</tr>';
-    }
-    $("#status_table").append(txt);
-
-    datatable = $(".status_table").DataTable({
-        // paging: false,
-        stateSave: true,
-        searching: false,
-        info: false
-    });
-
-
-}
-
-function show_userlist(data) {
-
-
-    var txt = '';
-    for (let i = 0; i < data.length; i++) {
-        txt += '<li data-value="' + data[i] + '"><a href="#"><i class="now-ui-icons design_app"></i><p>'+data[i]+'</p></a></li>';
-    }
-    $(".user_list").append(txt);
-
-
-    post_data = {
-        'user_name': data[0]
-    }
-    selected_user = data[0];
-    $('.user_list').find('li').first().next().click();
-    load_data();
-    load_table();
-}
-
-$(document).ready(function () {
-
-  var page_count = 0;
-  var page_number = 0;
-
-    $('.filter_button').click(function (){
-        clearInterval(auto_load1);
-        $('#date-range').val("");
-        $('.filter_button').removeClass('btn-primary').addClass('btn-default');
-        $(this).addClass('btn-primary');
-        table_filter = $(this).data('value');
-        load_table();
-        auto_load1 = setInterval(load_table, 60000);
-    })
-
-    $('#date-range').dateRangePicker();
-
-    $('#date-range').on('datepicker-apply', function(ev, picker) {
-      clearInterval(auto_load1);
-      $('.filter_button').removeClass('btn-primary').addClass('btn-default');
-      table_filter = $(this).val();
-      load_table();
-      auto_load1 = setInterval(load_table, 60000);
-
-    });
-
-    $.ajax({
-        url: '/get_user.php',
-        type: 'post',
-        dataType: 'json',
-        cache: false,
-        success: function (data, textStatus, jQxhr) {
-            show_userlist(data);
-        },
-        error: function (jqXhr, textStatus, errorThrown) {
-            console.log(errorThrown);
-        }
-    }).done(function () { });
-
-    // $("#user_select").change(function () {
-    //     clearInterval(auto_load);
-    //     post_data = {
-    //         'user_name': $(this).val()
-    //     }
-    //     load_data();
-    //     selected_user = $(this).val();
-    //     load_table();
-    //     auto_load = setInterval(load_data, 3600000);
-    // })
-
-    $(document).on('click' , '.user_list li' , function(){
-        if($(this).data('value') !='All'){
-          $('.user_list').find('li').removeClass('active');
-          $(this).addClass('active');
-          clearInterval(auto_load);
-          clearInterval(auto_load1);
-          post_data = {
-              'user_name': $(this).data('value')
-          }
-          load_data();
-          selected_user = $(this).data('value')
-          load_table();
-          auto_load = setInterval(load_data, 3600000);
-          auto_load1 = setInterval(load_table, 60000);
-        }
-
-    })
-
-
-})
+load_data();

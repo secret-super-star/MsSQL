@@ -72,6 +72,12 @@ if(!isset($_SESSION['username'])){
           <a href="./affiliates.php" style="color:white">
             <i class="now-ui-icons files_paper"></i> <span>View Affiliates Performance</span>
           </a>
+          <br>
+          <br>
+
+          <a href="./summary.php" style="color:white">
+            <i class="now-ui-icons files_paper"></i> <span>Account Summary</span>
+          </a>
 
         </div>
 
@@ -151,24 +157,16 @@ if(!isset($_SESSION['username'])){
 
                     <div class="col-md-12 pr-1">
                       <div class="form-group">
+                        <label>Bet365 password</label>
+                        <input type="text" class="form-control password" name='password' value="" required>
+                      </div>
+                    </div>
+
+                    <div class="col-md-12 pr-1">
+                      <div class="form-group">
                         <label>Initial Balance</label>
                         <input type="number" min='0' class="form-control" name='balance' value="0" required>
                       </div>
-                    </div>
-
-                    <div class="col-md-12 pr-1">
-                      <div class="form-group">
-                        <label>Bet365 password</label>
-                        <input type="password" class="form-control password" name='password' value="" required>
-                      </div>
-                    </div>
-
-                    <div class="col-md-12 pr-1">
-                      <div class="form-group">
-                        <label>Confirm password</label>
-                        <input type="password" class="form-control confirm" name='' value="" required>
-                      </div>
-                      <p class="text-danger password_wrong" style="display : none">Password not match..</p>
                     </div>
 
                     <div class="col-md-12 pr-1 text-right">
@@ -229,9 +227,7 @@ if(!isset($_SESSION['username'])){
   <script type="text/javascript">
     $('.add_form').submit(function (e){
       e.preventDefault();
-      if($('.password').val() != $('.confirm').val()){
-        $('.password_wrong').css('display','block');
-      } else {
+
         $.ajax({
             url: '/add_user.php',
             type: 'post',
@@ -251,7 +247,6 @@ if(!isset($_SESSION['username'])){
                 console.log(errorThrown);
             }
         }).done(function () { });
-      }
     })
   </script>
 </body>

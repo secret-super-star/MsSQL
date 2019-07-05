@@ -166,6 +166,18 @@ while($obj = sqlsrv_fetch_array($stmt4, SQLSRV_FETCH_ASSOC)){
     $return['resume']['Profit'] = $obj['Profit'];
 }
 
+$tsql = "select * from clients where Bet365User = '".$user_name."'";
+$stmt4 = sqlsrv_query( $conn, $tsql);
+while($obj = sqlsrv_fetch_array($stmt4, SQLSRV_FETCH_ASSOC)){
+    $return['resume']['decimal'] = $obj['Stake'];
+}
+
+$tsql = "select * from clients where Bet365User = '".$user_name."'";
+$stmt4 = sqlsrv_query( $conn, $tsql);
+while($obj = sqlsrv_fetch_array($stmt4, SQLSRV_FETCH_ASSOC)){
+    $return['resume']['event'] = $obj['MaxPerEvent'];
+}
+
 $return['resume']['ROI'] = $obj['ROI'];
 
 echo json_encode($return);
