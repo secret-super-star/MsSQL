@@ -368,11 +368,13 @@ while($obj = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)){
   <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
   <script type="text/javascript" src="../assets/js/moment.min.js"></script>
   <script type="text/javascript" src="../assets/js/jquery.daterangepicker.min.js"></script>
-  <script src="../assets/js/custom.js"></script>
 
   <script type="text/javascript">
-
+    var username = '<?php echo $_GET['username'] ?>';
   </script>
+
+  <script src="../assets/js/custom.js"></script>
+
 </body>
 
 </html>

@@ -8,9 +8,7 @@ if(!isset($_SESSION['username'])){
 
 $user_id = $_SESSION["id"];
 
-$tsql = "select * from clients where SystemUsersID = '".$user_id."' and Enabled='true'";
 
-$stmt = sqlsrv_query( $conn, $tsql);
 
 $total_bets = 0;
 $total_Stake = 0;
@@ -18,6 +16,10 @@ $total_Profit = 0;
 $total_settled = 0;
 $total_unsettled = 0;
 $total_roi = 0;
+
+$tsql = "select * from clients where SystemUsersID = '".$user_id."' and Enabled='true'";
+
+$stmt = sqlsrv_query( $conn, $tsql);
 ?>
 
 <!DOCTYPE html>
@@ -98,6 +100,13 @@ $total_roi = 0;
         <hr>
         <ul class="nav user_list">
           <li data-value="All" class="active"><a href="./summary.php"><i class="now-ui-icons design_app"></i><p style='font-size : 14px;'>All Accounts</p></a></li>
+          <?php
+          while($obj = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)){
+            ?>
+            <li data-value="<?php echo $obj['Bet365User'] ?>" ><a href="./dashboard.php?username=<?php echo $obj['Bet365User'] ?>"><i class="now-ui-icons design_app"></i><p><?php echo $obj['Bet365User'] ?></p></a></li>
+            <?php
+          }
+          ?>
         </ul>
         <!-- <div class='p-2'>
             <select name="cars" class="custom-select" id='user_select'>
@@ -186,6 +195,9 @@ $total_roi = 0;
                     </thead>
                     <tbody id='accounts_table'>
                       <?php
+                      $tsql = "select * from clients where SystemUsersID = '".$user_id."' and Enabled='true'";
+
+                      $stmt = sqlsrv_query( $conn, $tsql);
 
                       while($obj = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)){
                         $client_name = $obj['Bet365User'];

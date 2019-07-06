@@ -590,18 +590,28 @@ function show_userlist(data) {
 
     var txt = '';
     for (let i = 0; i < data.length; i++) {
-        txt += '<li data-value="' + data[i] + '"><a href="#"><i class="now-ui-icons design_app"></i><p>'+data[i]+'</p></a></li>';
+        txt += '<li data-id="'+data[i].trim()+'" data-value="' + data[i] + '"><a href="#"><i class="now-ui-icons design_app"></i><p>'+data[i]+'</p></a></li>';
     }
     $(".user_list").append(txt);
 
-
-    post_data = {
-        'user_name': data[0]
+    if(username){
+      post_data = {
+          'user_name': username
+      }
+      selected_user = username;
+      $('.user_list li[data-id="'+username+'"]').click();
+    } else {
+      post_data = {
+          'user_name': data[0]
+      }
+      selected_user = data[0];
+      $('.user_list').find('li').first().next().click();
     }
-    selected_user = data[0];
-    $('.user_list').find('li').first().next().click();
+
     load_data();
     load_table();
+
+
 }
 
 $(document).ready(function () {
