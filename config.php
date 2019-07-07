@@ -1,7 +1,7 @@
 <?php
 session_start();
 ob_start();
-$serverName = "127.0.0.1,1433";
+$serverName = "178.238.233.75,1433";
 $uid = "valuebets";
 $pwd = "Bet365Share";
 $databaseName = "AutoTraderPro";
