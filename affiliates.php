@@ -40,6 +40,10 @@ while($obj = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)){
     $commission =  $obj['commission'];
 }
 
+$tsql = "select * from clients where SystemUsersID = '".$user_id."' and Enabled='true'";
+
+$stmt = sqlsrv_query( $conn, $tsql);
+
 ?>
 
 <!DOCTYPE html>
@@ -78,18 +82,12 @@ while($obj = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)){
     -->
       <div class="logo text-center">
 
-        <a href="./dashboard.php" class="simple-text logo-normal">
+        <a href="./summary.php" class="simple-text logo-normal">
           <?php echo $_SESSION['username']; ?>
         </a>
       </div>
       <div class="sidebar-wrapper" id="sidebar-wrapper">
         <div class="action_bar mt-4">
-          <a href="./dashboard.php" style="color:white">
-            <i class="fas fa-tachometer-alt"></i> <span>Dashboard</span>
-          </a>
-          <br>
-          <br>
-
 
           <a href="./add_userpage.php" style="color:white">
             <i class="fas fa-user-plus"></i> <span>Add Account</span>
@@ -110,14 +108,20 @@ while($obj = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)){
           <br>
           <br>
 
-          <a href="./summary.php" style="color:white">
-            <i class="now-ui-icons files_paper"></i> <span>Account Summary</span>
-          </a>
+
 
         </div>
 
         <hr>
         <ul class="nav user_list">
+          <li data-value="All" class="active"><a href="./summary.php"><i class="now-ui-icons design_app"></i><p style='font-size : 14px;'>All Accounts</p></a></li>
+          <?php
+          while($obj = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)){
+            ?>
+            <li data-value="<?php echo $obj['Bet365User'] ?>" ><a href="./dashboard.php?username=<?php echo $obj['Bet365User'] ?>"><i class="now-ui-icons design_app"></i><p><?php echo $obj['Bet365User'] ?></p></a></li>
+            <?php
+          }
+          ?>
         </ul>
         <!-- <div class='p-2'>
             <select name="cars" class="custom-select" id='user_select'>
@@ -175,7 +179,7 @@ while($obj = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)){
           <div class="col-lg-12 col-md-12">
               <div class="card card-chart">
               <div class="card-header">
-                  <h5 class="card-category">Last 7 days</h5>
+                  <h5 class="card-category">Last week.</h5>
               </div>
               <div class="card-body">
                   <div class="chart-area">

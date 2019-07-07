@@ -51,7 +51,7 @@ while($obj = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)){
     -->
       <div class="logo text-center">
 
-        <a href="./dashboard.php" class="simple-text logo-normal">
+        <a href="./summary.php" class="simple-text logo-normal">
           <?php echo $_SESSION['username']; ?>
         </a>
       </div>
@@ -75,10 +75,6 @@ while($obj = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)){
           </a>
           <br>
           <br>
-
-          <a href="./summary.php" style="color:white">
-            <i class="now-ui-icons files_paper"></i> <span>Account Summary</span>
-          </a>
 
         </div>
 
@@ -248,26 +244,6 @@ while($obj = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)){
                         <input type="text" class="form-control roi" placeholder="" value="" readonly>
                       </div>
                     </div>
-                    <?php
-                      if($advanced == true){
-                    ?>
-                      <div class="col-md-6 pr-1">
-                        <div class="form-group">
-                          <label>Fixed Return Value</label>
-                          <input type="text" class="form-control frv" placeholder="" value="" readonly>
-                        </div>
-                      </div>
-
-                      <div class="col-md-6 pr-1">
-                        <div class="form-group">
-                          <label>Max per Event</label>
-                          <input type="text" class="form-control mpe" placeholder="" value="" readonly>
-                        </div>
-                      </div>
-                    <?php
-                      }
-
-                    ?>
 
                   </div>
 
@@ -278,14 +254,54 @@ while($obj = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)){
 
         </div>
 
+        <?php
+          if($advanced == true){
+        ?>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h5 class="title">Settings</h5>
+              </div>
+              <div class="card-body">
+                <form action="save_setting.php" method="post">
+                  <div class="row">
+                      <input type="hidden" class="form-control account_id" name="account_id" placeholder="" value="" readonly>
+                      <div class="col-md-6 pr-1">
+                        <div class="form-group">
+                          <label>Fixed Return Value</label>
+                          <input type="text" class="form-control frv" name="frv" placeholder="" value="" >
+                        </div>
+                      </div>
+                      <div class="col-md-6 pr-1">
+                        <div class="form-group">
+                          <label>Max per Event</label>
+                          <input type="text" class="form-control mpe" name="mpe" placeholder="" value="" >
+                        </div>
+                      </div>
+                      <div class="col-md-12 pr-1">
+                        <div class="form-group">
+                          <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                      </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <?php
+          }
+        ?>
+
         <div class="row table_row">
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
                 <h4 class="card-title">Bets History</h4>
-                <button class="btn btn-primary btn-sm filter_button" data-value='month'>Last 30 days</button>
+                <button class="btn btn-primary btn-sm filter_button" data-value='time'>Last 24 hours</button>
                 <button class="btn btn-default btn-sm filter_button" data-value='week'>Last 7 days</button>
-                <button class="btn btn-default btn-sm filter_button" data-value='time'>Last 24 hours</button>
+                <button class="btn btn-default btn-sm filter_button" data-value='month'>Last 30 days</button>
                 <input id="date-range" size="40" value="">
               </div>
               <div class="card-body">

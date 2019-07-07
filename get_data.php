@@ -170,13 +170,15 @@ $tsql = "select * from clients where Bet365User = '".$user_name."'";
 $stmt4 = sqlsrv_query( $conn, $tsql);
 while($obj = sqlsrv_fetch_array($stmt4, SQLSRV_FETCH_ASSOC)){
     $return['resume']['decimal'] = $obj['Stake'];
+    $return['resume']['event'] = $obj['MaxPerEvent'];
+    $return['resume']['id'] = $obj['id'];
 }
 
-$tsql = "select * from clients where Bet365User = '".$user_name."'";
-$stmt4 = sqlsrv_query( $conn, $tsql);
-while($obj = sqlsrv_fetch_array($stmt4, SQLSRV_FETCH_ASSOC)){
-    $return['resume']['event'] = $obj['MaxPerEvent'];
-}
+// $tsql = "select * from clients where Bet365User = '".$user_name."'";
+// $stmt4 = sqlsrv_query( $conn, $tsql);
+// while($obj = sqlsrv_fetch_array($stmt4, SQLSRV_FETCH_ASSOC)){
+//
+// }
 
 $return['resume']['ROI'] = $obj['ROI'];
 

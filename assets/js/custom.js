@@ -444,7 +444,7 @@ var chart_month = '';
 var chart_day = '';
 var post_data;
 var selected_user ='';
-var table_filter = 'month';
+var table_filter = 'time';
 var card_update_time = 1;
 var table_update_time = 1;
 
@@ -500,11 +500,26 @@ function load_data() {
             $('.bets_done').val(data['resume']['betcount']);
             $('.unsettled').val(data['resume']['Unsettled']);
             $('.settled').val(data['resume']['settled']);
-            $('.instake').val(parseFloat(data['resume']['Stake']).toFixed(2));
-            $('.profit').val((parseFloat(data['resume']['Profit']) - parseFloat(data['resume']['Stake'])).toFixed(2));
-            $('.roi').val(((parseFloat(data['resume']['Profit'])- parseFloat(data['resume']['Stake'])) / parseFloat(data['resume']['Stake']) * 100).toFixed(2)+"%");
-            $('.frv').val(data['resume']['decimal']);
-            $('.mpe').val(data['resume']['event']);
+            if(parseFloat(data['resume']['Stake']).toFixed(2) != 'NaN'){
+              $('.instake').val(parseFloat(data['resume']['Stake']).toFixed(2));
+            } else {
+              $('.instake').val('0');
+            }
+            if((parseFloat(data['resume']['Profit']) - parseFloat(data['resume']['Stake'])).toFixed(2) != 'NaN'){
+              $('.profit').val((parseFloat(data['resume']['Profit']) - parseFloat(data['resume']['Stake'])).toFixed(2));
+            } else {
+              $('.profit').val('0');
+            }
+            if(((parseFloat(data['resume']['Profit'])- parseFloat(data['resume']['Stake'])) / parseFloat(data['resume']['Stake']) * 100).toFixed(2) != 'NaN'){
+              $('.roi').val(((parseFloat(data['resume']['Profit'])- parseFloat(data['resume']['Stake'])) / parseFloat(data['resume']['Stake']) * 100).toFixed(2));
+            } else {
+              $('.roi').val('0');
+            }
+            // $('.profit').val((parseFloat(data['resume']['Profit']) - parseFloat(data['resume']['Stake'])).toFixed(2));
+            // $('.roi').val(((parseFloat(data['resume']['Profit'])- parseFloat(data['resume']['Stake'])) / parseFloat(data['resume']['Stake']) * 100).toFixed(2)+"%");
+            $('.frv').val(parseFloat(data['resume']['decimal']).toFixed(2));
+            $('.mpe').val(parseFloat(data['resume']['event']).toFixed(2));
+            $('.account_id').val(data['resume']['id']);
 
             clearInterval(auto_load2);
             card_update_time = 0;

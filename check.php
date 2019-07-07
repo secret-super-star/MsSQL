@@ -1,4 +1,4 @@
-<?php 
+<?php
   include('config.php') ;
 
 $user_name = $_POST['username'];
@@ -13,18 +13,18 @@ $stmt = sqlsrv_query( $conn, $tsql);
 
 while($obj = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC))
 {
-	
+
 	if(trim($obj['Username']) == $user_name)
 	{
 		if(trim($obj['Password']) == $user_pwd)
 		{
-			$_SESSION["username"] = $user_name;			
-			$_SESSION["id"] = $obj['id'];			
-			header("location:dashboard.php");
+			$_SESSION["username"] = $user_name;
+			$_SESSION["id"] = $obj['id'];
+			header("location:summary.php");
 		}
 		else
 		{
-			$_SESSION["pwderror"] = "Invalid Password";			
+			$_SESSION["pwderror"] = "Invalid Password";
 			header("location:index.php");
 		}
 
@@ -35,4 +35,3 @@ while($obj = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC))
 		header("location:index.php");
 	}
 }
-

@@ -16,6 +16,7 @@ $total_Profit = 0;
 $total_settled = 0;
 $total_unsettled = 0;
 $total_roi = 0;
+$total_pay = 0;
 
 $tsql = "select * from clients where SystemUsersID = '".$user_id."' and Enabled='true'";
 
@@ -59,18 +60,14 @@ $stmt = sqlsrv_query( $conn, $tsql);
     -->
       <div class="logo text-center">
 
-        <a href="./dashboard.php" class="simple-text logo-normal">
+        <a href="./summary.php" class="simple-text logo-normal">
           <?php echo $_SESSION['username']; ?>
         </a>
       </div>
       <div class="sidebar-wrapper" id="sidebar-wrapper">
         <div class="action_bar mt-4">
 
-          <a href="./dashboard.php" style="color:white">
-            <i class="fas fa-tachometer-alt"></i> <span>Dashboard</span>
-          </a>
-          <br>
-          <br>
+
 
           <a href="./add_userpage.php" style="color:white">
             <i class="fas fa-user-plus"></i> <span>Add Account</span>
@@ -91,9 +88,7 @@ $stmt = sqlsrv_query( $conn, $tsql);
           <br>
           <br>
 
-          <a href="./summary.php" style="color:white">
-            <i class="now-ui-icons files_paper"></i> <span>Account Summary</span>
-          </a>
+
 
         </div>
 
@@ -192,6 +187,9 @@ $stmt = sqlsrv_query( $conn, $tsql);
                       <th>
                         ROI
                       </th>
+                      <th>
+                        Value to Pay
+                      </th>
                     </thead>
                     <tbody id='accounts_table'>
                       <?php
@@ -237,6 +235,8 @@ $stmt = sqlsrv_query( $conn, $tsql);
 
                             $total_unsettled += $return['unsettled'];
                             echo "<td>".round((($return['Profit'] - $return['Stake'])/$return['Stake'])*100, 2)."%</td>";
+                            $total_pay += $obj['WeekProfit'];
+                            echo "<td>".round($obj['WeekProfit'], 2)."</td>";
 
 
 
@@ -315,6 +315,16 @@ $stmt = sqlsrv_query( $conn, $tsql);
                         <input type="text" class="form-control roi" placeholder="" value="<?php echo $total_roi; ?>" readonly>
                       </div>
                     </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6 pr-1">
+                      <div class="form-group">
+                        <label>Week Profit</label>
+                        <input type="text" class="form-control profit" placeholder="" value="<?php echo $total_pay; ?>" readonly>
+                      </div>
+                    </div>
+
                   </div>
 
                 </form>
