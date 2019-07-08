@@ -10,12 +10,12 @@ for($i=1;$i<=12;$i++){
     $result_year[$i]['val'] =0;
     $result_year[$i]['count'] =0;
 }
-$tsql = "select * from AccountsBalance where FORMAT(TimeStamp,'yyyy') = FORMAT( GETDATE( ) ,'yyyy' ) and ClientUsername = '".$user_name."'";
+$tsql = "select * from BetsDone where FORMAT(TimeStamp,'yyyy') = FORMAT( GETDATE( ) ,'yyyy' ) and ClientUsername = '".$user_name."'";
 $stmt1 = sqlsrv_query( $conn, $tsql);
 while($obj = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC)){
     $timestamp = strtotime($obj['TimeStamp']);
     $php_date = getdate($timestamp);
-    $result_year[$php_date['mon']]['val'] += (float)$obj['Balance'];
+    $result_year[$php_date['mon']]['val'] += (float)$obj['CurrentBalance'];
     $result_year[$php_date['mon']]['count'] ++;
 }
 
@@ -41,12 +41,12 @@ for($i=1;$i<$today;$i++){
     $return['month']['label'][]=$i;
 }
 // $tsql = "select * from AccountsBalance where FORMAT(TimeStamp,'MM/yyyy') = FORMAT( GETDATE( ) ,'MM/yyyy' ) and ClientUsername = '".$user_name."'";
-$tsql = "select * from AccountsBalance where TimeStamp >= (CURRENT_TIMESTAMP-30) and TimeStamp <= (CURRENT_TIMESTAMP-1) and ClientUsername = '".$user_name."' order by TimeStamp ASC";
+$tsql = "select * from BetsDone where TimeStamp >= (CURRENT_TIMESTAMP-30) and TimeStamp <= (CURRENT_TIMESTAMP-1) and ClientUsername = '".$user_name."' order by TimeStamp ASC";
 $stmt = sqlsrv_query( $conn, $tsql);
 while($obj = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)){
     $timestamp = strtotime($obj['TimeStamp']);
     $php_date = getdate($timestamp);
-    $result_mon[$php_date['mday']]['val'] += (float)$obj['Balance'];
+    $result_mon[$php_date['mday']]['val'] += (float)$obj['CurrentBalance'];
     $result_mon[$php_date['mday']]['count'] ++;
 }
 
@@ -56,9 +56,7 @@ foreach($result_mon as $result){
     } else {
         $return['month']['data'][] = 0;
     }
-
 }
-
 
 
 $result_week = array();
@@ -89,12 +87,12 @@ for($j=0;$j<7;$j++){
 }
 
 // $tsql = "select * from AccountsBalance where FORMAT(TimeStamp,'MM/yyyy') = FORMAT( GETDATE( ) ,'MM/yyyy' ) and ClientUsername = '".$user_name."'";
-$tsql = "select * from AccountsBalance where TimeStamp >= (CURRENT_TIMESTAMP-6) and TimeStamp <= (CURRENT_TIMESTAMP-1) and ClientUsername = '".$user_name."' order by TimeStamp ASC";
+$tsql = "select * from BetsDone where TimeStamp >= (CURRENT_TIMESTAMP-6) and TimeStamp <= (CURRENT_TIMESTAMP-1) and ClientUsername = '".$user_name."' order by TimeStamp ASC";
 $stmt2 = sqlsrv_query( $conn, $tsql);
 while($obj = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC)){
     $timestamp = strtotime($obj['TimeStamp']);
     $php_date = getdate($timestamp);
-    $result_week[$php_date['mday']]['val'] += (float)$obj['Balance'];
+    $result_week[$php_date['mday']]['val'] += (float)$obj['CurrentBalance'];
     $result_week[$php_date['mday']]['count'] ++;
 }
 
@@ -117,13 +115,13 @@ for($i=0;$i<24;$i++){
     $result_time[$time_now]['count'] =0;
     $return['time']['label'][]=$time_now.":00";
 }
-$tsql = "select * from AccountsBalance where TimeStamp >= DATEADD(hh, -24, GETDATE()) and ClientUsername = '".$user_name."' and ClientUsername = '".$user_name."' order by TimeStamp ASC";
+$tsql = "select * from BetsDone where TimeStamp >= DATEADD(hh, -24, GETDATE()) and ClientUsername = '".$user_name."' and ClientUsername = '".$user_name."' order by TimeStamp ASC";
 $stmt3 = sqlsrv_query( $conn, $tsql);
 while($obj = sqlsrv_fetch_array($stmt3, SQLSRV_FETCH_ASSOC)){
 
     $timestamp = strtotime($obj['TimeStamp']);
     $php_date = getdate($timestamp);
-    $result_time[$php_date['hours']]['val'] += (float)$obj['Balance'];
+    $result_time[$php_date['hours']]['val'] += (float)$obj['CurrentBalance'];
     $result_time[$php_date['hours']]['count'] ++;
 }
 

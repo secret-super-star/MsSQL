@@ -511,9 +511,9 @@ function load_data() {
               $('.profit').val('0');
             }
             if(((parseFloat(data['resume']['Profit'])- parseFloat(data['resume']['Stake'])) / parseFloat(data['resume']['Stake']) * 100).toFixed(2) != 'NaN'){
-              $('.roi').val(((parseFloat(data['resume']['Profit'])- parseFloat(data['resume']['Stake'])) / parseFloat(data['resume']['Stake']) * 100).toFixed(2));
+              $('.roi').val('%'+ ((parseFloat(data['resume']['Profit'])- parseFloat(data['resume']['Stake'])) / parseFloat(data['resume']['Stake']) * 100).toFixed(2));
             } else {
-              $('.roi').val('0');
+              $('.roi').val('% 0');
             }
             // $('.profit').val((parseFloat(data['resume']['Profit']) - parseFloat(data['resume']['Stake'])).toFixed(2));
             // $('.roi').val(((parseFloat(data['resume']['Profit'])- parseFloat(data['resume']['Stake'])) / parseFloat(data['resume']['Stake']) * 100).toFixed(2)+"%");
