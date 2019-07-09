@@ -62,7 +62,9 @@
 							</button>
 						</div>
 					</div>
-
+          <br>
+          <a href="/register.php"><p style="text-align : center">Register</p></a>
+          
 				</form>
 			</div>
 		</div>

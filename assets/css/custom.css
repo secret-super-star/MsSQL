@@ -37,3 +37,8 @@
     color: #000 !important;
     cursor: text;
 }
+
+.dataTables_wrapper{
+    overflow: hidden;
+    overflow-x: scroll;
+}

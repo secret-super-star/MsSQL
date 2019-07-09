@@ -87,11 +87,11 @@
 
 })(jQuery);
 
-$(document).ready(function () {
-    $('.register_form').submit(function (e) {
-        if ($("#password").val() != $("#confirm_password").val()) {
-            e.preventDefault();
-            $('.password_invalid').show();
-        }
-    })
-})
+// $(document).ready(function () {
+//     $('.register_form').submit(function (e) {
+//         if ($("#password").val() != $("#confirm_password").val()) {
+//             e.preventDefault();
+//             $('.password_invalid').show();
+//         }
+//     })
+// })

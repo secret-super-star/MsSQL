@@ -34,8 +34,9 @@ $tsql = "select Bet365User from clients where SystemUsersID = '".$user_id."'";
 $stmt = sqlsrv_query( $conn, $tsql);
 while($obj = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)){
     $client_name = $obj['Bet365User'];
-    $date_l1 = ($week_day + 2) % 7 +7 ;
-    $date_l2 = 7 - $date_l1 + 7;
+    $date_l1 = ($week_day + 2) % 7  ;
+    if(($week_day + 2) % 7 == 0) $date_l1 = 7;
+    $date_l2 = 7 - $date_l1 ;
 
     $tsql1 = "select * from BetsDone where TimeStamp >= (CURRENT_TIMESTAMP-".$date_l1.") and TimeStamp <= (CURRENT_TIMESTAMP+".$date_l2.") and ClientUsername = '".$client_name."'";
     $stmt1 = sqlsrv_query( $conn, $tsql1);

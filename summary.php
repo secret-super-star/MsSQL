@@ -8,6 +8,16 @@ if(!isset($_SESSION['username'])){
 
 $user_id = $_SESSION["id"];
 
+$week_day = date('w');
+
+$date_l1 = ($week_day + 2) % 7  ;
+if(($week_day + 2) % 7 == 0) $date_l1 = 7;
+$date_l2 = 7 - $date_l1 ;
+
+$date = date("m/d/Y", strtotime("-$date_l1 day"));
+$date1 = date("m/d/Y", strtotime("+$date_l2 day"));
+
+$period = $date . " to " . $date1;
 
 
 $total_bets = 0;
@@ -187,9 +197,6 @@ $stmt = sqlsrv_query( $conn, $tsql);
                       <th>
                         ROI
                       </th>
-                      <th>
-                        Value to Pay
-                      </th>
                     </thead>
                     <tbody id='accounts_table'>
                       <?php
@@ -236,9 +243,6 @@ $stmt = sqlsrv_query( $conn, $tsql);
                             $total_unsettled += $return['unsettled'];
                             echo "<td>".round((($return['Profit'] - $return['Stake'])/$return['Stake'])*100, 2)."%</td>";
                             $total_pay += $obj['WeekProfit'];
-                            echo "<td>".round($obj['WeekProfit'], 2)."</td>";
-
-
 
                           ?>
 
@@ -312,22 +316,64 @@ $stmt = sqlsrv_query( $conn, $tsql);
                     <div class="col-md-6 pr-1">
                       <div class="form-group">
                         <label>ROI</label>
-                        <input type="text" class="form-control roi" placeholder="" value="<?php echo $total_roi; ?>" readonly>
+                        <input type="text" class="form-control roi" placeholder="" value="<?php echo $total_roi; ?> %" readonly>
                       </div>
                     </div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-md-6 pr-1">
-                      <div class="form-group">
-                        <label>Week Profit</label>
-                        <input type="text" class="form-control profit" placeholder="" value="<?php echo $total_pay; ?>" readonly>
-                      </div>
-                    </div>
-
                   </div>
 
                 </form>
+              </div>
+              <div class="card-footer ">
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row table_row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">Week Profit <strong style="font-size : 14px; color: black;"> <?php echo $period ?> </strong></h4>
+
+              </div>
+              <div class="card-body">
+                <div class="">
+                  <table class="affiliates_table"style="width:100%" >
+                    <thead class="">
+                      <th>
+                        UserName
+                      </th>
+                      <th>
+                        Week Profit
+                      </th>
+                      <th>
+                      </th>
+                    </thead>
+                    <tbody id='status_table'>
+                      <?php
+                        $weekprofit = 0;
+
+                        $tsql = "select * from clients where SystemUsersID = '".$user_id."' and Enabled='true'";
+                        $stmt = sqlsrv_query( $conn, $tsql);
+                        while($obj = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)){
+                          echo "<tr>";
+                          echo "<td>".$obj['Bet365User']."</td>";
+                          echo "<td>".round($obj['WeekProfit'], 2)."</td>";
+                          echo "<td></td>";
+                          echo "</tr>";
+                          $weekprofit += round($obj['WeekProfit'], 2);
+                        }
+
+                        echo "<tr>";
+                        echo "<td><strong>Total</strong></td>";
+                        echo "<td>".$weekprofit."</td>";
+                        echo "<td><strong>Value to Pay: ".($weekprofit/2)."</strong></td>";
+                        echo "</tr>";
+                      ?>
+                    </tbody>
+                  </table>
+                </div>
               </div>
               <div class="card-footer ">
 

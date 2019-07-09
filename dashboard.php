@@ -302,11 +302,11 @@ while($obj = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)){
                 <button class="btn btn-primary btn-sm filter_button" data-value='time'>Last 24 hours</button>
                 <button class="btn btn-default btn-sm filter_button" data-value='week'>Last 7 days</button>
                 <button class="btn btn-default btn-sm filter_button" data-value='month'>Last 30 days</button>
-                <input id="date-range" size="40" value="">
+                <input id="date-range" value="">
               </div>
               <div class="card-body">
                 <div class="">
-                  <table class="status_table"style="width:100%" >
+                  <table class="status_table" style="width:100%" >
                     <thead class="">
                       <th>
                         Date

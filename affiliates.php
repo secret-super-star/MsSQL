@@ -6,6 +6,17 @@ if(!isset($_SESSION['username'])){
     header("location:index.php");
 }
 
+$week_day = date('w');
+
+$date_l1 = ($week_day + 2) % 7  ;
+if(($week_day + 2) % 7 == 0) $date_l1 = 7;
+$date_l2 = 7 - $date_l1 ;
+
+$date = date("m/d/Y", strtotime("-$date_l1 day"));
+$date1 = date("m/d/Y", strtotime("+$date_l2 day"));
+
+$period = $date . " to " . $date1;
+
 $user_name = $_SESSION['username'];
 $user_id = $_SESSION['id'];
 
@@ -19,6 +30,13 @@ $betsdone = 0;
 $total_stake = 0;
 $total_profit = 0;
 $commission = 0;
+$week_profit = 0;
+
+$tsql = "select sum(WeekProfit) as WeekProfit from clients where SystemUsersID = '".$user_id."'";
+$stmt = sqlsrv_query( $conn, $tsql);
+while($obj = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)){
+  $week_profit = round($obj['WeekProfit'], 2);
+}
 
 $tsql = "select Bet365User from clients where SystemUsersID = '".$user_id."'";
 $stmt = sqlsrv_query( $conn, $tsql);
@@ -179,7 +197,7 @@ $stmt = sqlsrv_query( $conn, $tsql);
           <div class="col-lg-12 col-md-12">
               <div class="card card-chart">
               <div class="card-header">
-                  <h5 class="card-category">Last week.</h5>
+                  <h5 class="card-category">This week. <strong  style="font-size : 14px; color: black;"> <?php echo $period ?> </strong></h5>
               </div>
               <div class="card-body">
                   <div class="chart-area">
@@ -196,7 +214,7 @@ $stmt = sqlsrv_query( $conn, $tsql);
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <h4 class="card-title">Affiliates Performance</h4>
+                <h4 class="card-title">Affiliates Performance  <strong style="font-size : 14px; color: black;"> <?php echo $period ?> </strong></h4>
 
               </div>
               <div class="card-body">
@@ -242,15 +260,110 @@ $stmt = sqlsrv_query( $conn, $tsql);
                   </div>
 
                   <div class="row">
+
+                    <div class="col-md-6 pr-1">
+                      <div class="form-group">
+                        <label>Week Profit (Real Win/Loss in the period)</label>
+                        <input type="text" class="form-control profit" placeholder="" value="<?php echo $week_profit; ?>">
+                      </div>
+                    </div>
+
                     <div class="col-md-6 pr-1">
                       <div class="form-group">
                         <label>Commission calculated</label>
-                        <input type="text" class="form-control profit" placeholder="" value="<?php echo $commission; ?>">
+                        <input type="text" class="form-control profit" placeholder="" value="<?php echo $week_profit/$commission; ?>">
                       </div>
                     </div>
+
+
                   </div>
 
                 </form>
+              </div>
+              <div class="card-footer ">
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row table_row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">Affiliates <strong style="font-size : 14px; color: black;"> <?php echo $period ?> </strong></h4>
+
+              </div>
+              <div class="card-body">
+                <div class="">
+                  <table class="affiliates_table"style="width:100%" >
+                    <thead class="">
+                      <th>
+                        Name
+                      </th>
+                      <th>
+                        Accounts
+                      </th>
+                      <th>
+                        Bets Done
+                      </th>
+                      <th>
+                        Stake
+                      </th>
+                      <th>
+                        Profit
+                      </th>
+                    </thead>
+                    <tbody id='status_table'>
+                      <?php
+                        $tsql = "select * from SystemUsers where Referral = '".$user_name."'";
+                        $stmt = sqlsrv_query( $conn, $tsql);
+                        while($obj = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)){
+
+                            echo "<tr>";
+                            echo "<td>".$obj['Username']."</td>";
+
+                            $tsql1 = "select count(*) as count from clients where SystemUsersID = '".$obj['id']."'";
+                            $stmt1 = sqlsrv_query( $conn, $tsql1);
+
+                            while($obj1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC)){
+                              echo "<td>".$obj1['count']."</td>";
+                            }
+
+                            $betsdone = 0;
+                            $stake = 0;
+                            $profit = 0;
+
+                            $tsql1 = "select * from clients where SystemUsersID = '".$obj['id']."'";
+                            $stmt1 = sqlsrv_query( $conn, $tsql1);
+
+                            while($obj1 = sqlsrv_fetch_array($stmt1, SQLSRV_FETCH_ASSOC)){
+                                $tsql2 = "select count(*) as count, sum(Stake) as stake from BetsDone where ClientUsername = '".$obj1['Bet365User']."'";
+                                $stmt2 = sqlsrv_query( $conn, $tsql2);
+
+                                while($obj2 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC)){
+                                    $betsdone += $obj2['count'];
+                                    $stake += $obj2['stake'];
+                                }
+
+                                $tsql2 = "select sum(Stake) as stake from BetsDone where ClientUsername = '".$obj1['Bet365User']."' and OutCome='settled'";
+                                $stmt2 = sqlsrv_query( $conn, $tsql2);
+
+                                while($obj2 = sqlsrv_fetch_array($stmt2, SQLSRV_FETCH_ASSOC)){
+                                    $profit += $obj2['stake'];
+                                }
+
+                            }
+
+                            echo "<td>".$betsdone."</td>";
+                            echo "<td>".$stake."</td>";
+                            echo "<td>".$profit."</td>";
+                            echo "</tr>";
+                        }
+                      ?>
+                    </tbody>
+                  </table>
+                </div>
               </div>
               <div class="card-footer ">
 
@@ -295,6 +408,16 @@ $stmt = sqlsrv_query( $conn, $tsql);
   <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
   <script src="../assets/js/affiliate.js" type="text/javascript"></script>
+  <script type="text/javascript">
+
+    datatable = $(".affiliates_table").DataTable({
+        // paging: false,
+        stateSave: true,
+        searching: false,
+        info: false
+    });
+
+  </script>
 </body>
 
 </html>

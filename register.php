@@ -40,6 +40,7 @@ if(isset($_GET['ref'])){
 					</span>
 
 					<div class="wrap-input100 validate-input" data-validate = "Valid email is: a@b.c">
+						<label for="">Username</label>
 						<input class="input100" type="text" name="username" autocomplete="off" required>
 						<span class="focus-input100" data-placeholder=""></span>
 					</div>
@@ -49,19 +50,19 @@ if(isset($_GET['ref'])){
 						<span class="btn-show-pass">
 							<i class="zmdi zmdi-eye"></i>
 						</span>
+						<label for="">Password</label>
 						<input class="input100" type="password" name="password" id="password"  autocomplete="off">
 						<span class="focus-input100" data-placeholder=""></span>
 					</div>
 
-					<div class="wrap-input100 validate-input" data-validate="Enter password">
-						<span class="btn-show-pass">
-							<i class="zmdi zmdi-eye"></i>
-						</span>
-						<input class="input100" type="password" name="confirm_password" id="confirm_password" autocomplete="off">
+					<div class="wrap-input100 validate-input" data-validate = "Valid email is: a@b.c">
+						<label for="">Name</label>
+						<input class="input100" type="text" name="name" autocomplete="off" required>
 						<span class="focus-input100" data-placeholder=""></span>
 					</div>
 
-					<div class="wrap-input100 validate-input" data-validate="Enter password">
+					<div class="wrap-input100" data-validate="Enter password">
+						<label for="">Refferal</label>
 						<input class="input100" type="text" name="refferal" readonly  autocomplete="off" value="<?php echo $refferal_user; ?>">
 						<span class="focus-input100" data-placeholder=""></span>
 					</div>
