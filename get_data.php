@@ -56,9 +56,7 @@ foreach($result_mon as $result){
     } else {
         $return['month']['data'][] = 0;
     }
-
 }
-
 
 
 $result_week = array();

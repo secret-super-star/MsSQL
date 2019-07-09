@@ -261,7 +261,7 @@ while($obj = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)){
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <h5 class="title">Settings</h5>
+                <h5 class="title">Advanced Settings</h5>
               </div>
               <div class="card-body">
                 <form action="save_setting.php" method="post">
